@@ -13,5 +13,16 @@
 			(zero? (mod x 3))))
 		(range n))))
 
+
+; Even Fibonacci numbers
+
+; Lazy-Seq / take-while / filter / even-numbers
+
+(defn no2 [n] 
+	(letfn [(fib [a b] (cons a (lazy-seq (fib b (+ b a)))))]
+		(reduce + (take-while (fn [x] (< x n)) (filter even? (fib 1 2))))))
+
 (defn -main [& args]
-  (println (format "Problem No %d = %d" 1 (no1 1000))))
+ 	(time(println (format "Problem No %d = %d" 1 (no1 1e3))))
+ 	(time(println (format "Problem No %d = %d" 2 (no2 4e6))))
+  )
