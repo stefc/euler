@@ -3,5 +3,6 @@
             [euler.core :refer :all]))
 
 (deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+    (is (= 233168 (no1 1e3)))
+    (is (= 4613732 (no2 4e6)))
+)
