@@ -3,6 +3,7 @@
             [euler.core :refer :all]))
 
 (deftest a-test
-    (is (= 233168 (no1 1e3)))
-    (is (= 4613732 (no2 4e6)))
+    (is (= 233168 	(no1 1e3)))
+    (is (= 4613732	(no2 4e6)))
+    (is (= 6857 	(no3 600851475143)))
 )

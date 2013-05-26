@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"do",
+				"doall"
+			],
+			[
+				"B",
+				"bigint"
+			],
+			[
+				"Num",
+				"num"
+			],
+			[
+				"sieve",
+				"sieve-until"
+			],
+			[
+				"clo",
+				"clojure.set"
+			],
+			[
+				"sorted",
+				"sorted-set"
+			],
+			[
+				"print",
+				"println"
+			],
+			[
 				"vec",
 				"vector"
 			]
@@ -11,36 +39,79 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "(ns euler.core\n  (:gen-class))\n\n; Multiples of 3 and 5\n; \n; Multiplier bestimmen\n; Filter Funktion\n; Reduce zum Aufsummieren\n;\n(defn no1 [n] ; 6.3 msec\n	(apply + (filter #(or \n			(zero? (mod % 5))\n			(zero? (mod % 3)))\n		(range n))))\n\n; Smarter but very slow ?\n;(defn no1 [n]\n;	(letfn [(where [x] ( eval (cons 'or (map (fn [y] (zero? (mod x y))) '(3 5)))))  ]	\n;   		(apply + (filter where (range n)))))\n\n; Even Fibonacci numbers\n\n; Lazy-Seq / take-while / filter / even-numbers\n\n;(defn no2 [n] ; 1.5 msec\n;	(letfn [(fib [a b] (cons a (lazy-seq (fib b (+ b a)))))]\n;		(apply + (take-while (fn [x] (< x n)) (filter even? (fib 1 2))))))\n\n(defn no2 [n] \n   (apply + (take-while #(< % n) (filter even? (map first (iterate (fn [[a b]] [b (+ a b)]) [1 2]))))))\n\n; Primzahlen Faktorisierung\n;\n(def primes  \n	(letfn [\n		; Sieve as Lazy Sequence\n		(siev [s] (cons (first s) (lazy-seq (siev (doall(filter #(not= 0 (mod % (first s))) (rest s)))))))]\n	(siev (iterate inc 2))))\n\n; filter #(zero? (mod t %)) \n(defn no3 \n	( [n] (no3 n (int (Math/sqrt n)) 0 primes))\n	( [n to acc prim] \n		(if( > (first prim) to) \n			acc \n			(recur n to (if(zero? (mod n (first prim))) (first prim) acc) (rest prim)))))\n\n\n;		apply max (filter #(zero? (mod n %)) (primes (int (Math/sqrt n)) n))))\n\n; (int (Math/sqrt 13195))\n; (int (Math/sqrt 600851475143))\n\n(defn -main [& args]\n 	(time(println (format \"Problem No %d = %d\" 1 (no1 1e3))))\n 	(time(println (format \"Problem No %d = %d\" 2 (no2 4e6))))\n  )\n",
+			"file": "src/euler/core.clj",
+			"file_size": 1524,
+			"file_write_time": 1369520492000000,
+			"settings":
+			{
+				"buffer_size": 1469,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "test/euler/core_test.clj",
+			"settings":
+			{
+				"buffer_size": 178,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 138.0,
+		"height": 54.0,
 		"selected_items":
 		[
 			[
-				"git com",
-				"Git: Commit"
-			],
-			[
-				"git add",
-				"Git: Add..."
-			],
-			[
-				"git st",
-				"Git: Status"
-			],
-			[
-				"lein ",
-				"Build: Lein: Uberjar"
+				"leinrun",
+				"Build: Lein: Run"
 			],
 			[
 				"lein",
 				"Build: Lein: Test"
 			],
 			[
+				"blt",
+				"Build: Lein: Test"
+			],
+			[
+				"blr",
+				"Build: Lein: Run"
+			],
+			[
+				"leintest",
+				"Build: Lein: Test"
+			],
+			[
+				"lein test",
+				"Build: Lein: Test"
+			],
+			[
 				"lein run",
 				"Build: Lein: Run"
+			],
+			[
+				"git com",
+				"Git: Commit"
+			],
+			[
+				"git st",
+				"Git: Status"
+			],
+			[
+				"git add",
+				"Git: Add..."
+			],
+			[
+				"git",
+				"Git: Status"
+			],
+			[
+				"lein ",
+				"Build: Lein: Uberjar"
 			],
 			[
 				"ins",
@@ -72,6 +143,8 @@
 	},
 	"file_history":
 	[
+		"/home/stefc/Projects/euler/src/euler/core.clj",
+		"/home/stefc/Projects/euler/src/euler/project.clj",
 		"/home/stefc/Projects/rubiks-cube/project.clj",
 		"/home/stefc/Projects/rubiks-cube/src/rubiks_cube/core.clj",
 		"/home/stefc/Projects/rubiks-cube/.gitignore",
@@ -80,7 +153,7 @@
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"find_in_files":
 	{
@@ -94,6 +167,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			" "
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -111,8 +185,62 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "src/euler/core.clj",
+					"settings":
+					{
+						"buffer_size": 1469,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1188,
+								1188
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Clojure/Clojure.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 492.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "test/euler/core_test.clj",
+					"settings":
+					{
+						"buffer_size": 178,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								163,
+								163
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Clojure/Clojure.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -122,7 +250,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"layout":
 	{

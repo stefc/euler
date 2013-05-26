@@ -8,9 +8,9 @@
 ; Reduce zum Aufsummieren
 ;
 (defn no1 [n] ; 6.3 msec
-	(apply + (filter (fn [x] (or 
-			(zero? (mod x 5))
-			(zero? (mod x 3))))
+	(apply + (filter #(or 
+			(zero? (rem % 5))
+			(zero? (rem % 3)))
 		(range n))))
 
 ; Smarter but very slow ?
@@ -27,9 +27,20 @@
 ;		(apply + (take-while (fn [x] (< x n)) (filter even? (fib 1 2))))))
 
 (defn no2 [n] 
-   (apply + (take-while (fn [v] (< v n)) (filter even? (map first (iterate (fn [[a b]] [b (+ a b)]) [1 2]))))))
+   (apply + (take-while #(< % n) (filter even? (map first (iterate (fn [[a b]] [b (+ a b)]) [1 2]))))))
+
+; größte Primzahl
+;
+(defn no3 [n]
+	(let [max (int (Math/sqrt n))]
+		(loop [x n acc 2]
+			(cond 
+				(or(> acc max) (= x acc)) 	x
+				(zero? (rem x acc))			(recur (/ x acc) acc)
+				:else 						(recur x (inc acc))))))
 
 (defn -main [& args]
  	(time(println (format "Problem No %d = %d" 1 (no1 1e3))))
  	(time(println (format "Problem No %d = %d" 2 (no2 4e6))))
+ 	(time(println (format "Problem No %d = %d" 3 (no3 600851475143))))
   )
