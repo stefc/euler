@@ -35,12 +35,25 @@
 	(let [max (int (Math/sqrt n))]
 		(loop [x n acc 2]
 			(cond 
-				(or(> acc max) (= x acc)) 	x
+				(or(> acc max) (= x acc))	x
 				(zero? (rem x acc))			(recur (/ x acc) acc)
-				:else 						(recur x (inc acc))))))
+				:else						(recur x (inc acc))))))
+
+; kleinster gemeinsamer Vielfacher 
+(defn no5 [n] 
+	(letfn [
+		(multiplier [n] (iterate (partial + n) n))
+		(kgv [a b]
+			(letfn [(f [a b]
+	 			(if(= (first a) (first b)) (first a)
+	 				(if(> (first a) (first b))
+	 					(recur a (rest b)) (recur (rest a) b))))]
+			(f (multiplier a) (multiplier b))))]
+	(reduce kgv (range 1 (inc n)))))
 
 (defn -main [& args]
  	(time(println (format "Problem No %d = %d" 1 (no1 1e3))))
  	(time(println (format "Problem No %d = %d" 2 (no2 4e6))))
  	(time(println (format "Problem No %d = %d" 3 (no3 600851475143))))
+ 	(time(println (format "Problem No %d = %d" 5 (no5 10))))
   )
