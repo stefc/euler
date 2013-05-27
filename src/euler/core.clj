@@ -39,34 +39,25 @@
 				(zero? (rem x acc))			(recur (/ x acc) acc)
 				:else						(recur x (inc acc))))))
 
-(defn pow [x y] (reduce * (repeat y x)))
-(defn pow10 [x] (pow 10 x))
 
-(defn split [n digits] 
-	(loop [v n idx digits acc []]
-		(let [weight (pow10 (dec idx))]
-			(if(zero? idx) acc 
-				(recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int(/ v  weight))))))))
 
-(defn palindrom? [vec]
-	(= vec (reverse vec)))
 
-(defn search-palindrom [n digits]
-	(if(palindrom? (split n digits)) n
-		(recur (dec n) digits)))
 
 ; (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))
-(def products 
-	(filter #(palindrom? (split (* (first %) (last %)) 6 )) 
-		(for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))
 
-(defn mul-pair [v] 
-	(* (first v) (last v)))
-
-;(def no4
-;	(loop [list products acc [] maxi 0]
-;		if(empty? list) acc
-;			(recur (rest list) (if(> (mul-pair(first list)) maxi ) (first list) acc ) (max( maxi (mul-pair(first list))))))) 
+(defn no4 [n] 
+	(letfn [
+		(pow10 [e] (int(Math/pow 10 e)))
+		(palindrom? [vec] (= vec (reverse vec)))
+		(split [n digits] 
+			(loop [v n idx digits acc []]
+				(let [weight (pow10 (dec idx))]
+					(if(zero? idx) acc 
+						(recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int(/ v  weight))))))))	
+		(products [n] 
+			(filter #(palindrom? (split % n)) 
+				(for [a (range 99 999) b (range 99 999 11)] (* a b))))
+		](apply max (products (+ n n)))))
 
 ; kleinster gemeinsamer Vielfacher  
 (defn no5 [n]
@@ -90,6 +81,6 @@
  	(time(println (format "Problem No %d = %d" 1 (no1 1e3))))
  	(time(println (format "Problem No %d = %d" 2 (no2 4e6))))
  	(time(println (format "Problem No %d = %d" 3 (no3 600851475143))))
-
+ 	(time(println (format "Problem No %d = %d" 4 (no4 3))))
  	(time(println (format "Problem No %d = %d" 5 (no5 20))))
   )
