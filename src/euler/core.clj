@@ -39,21 +39,57 @@
 				(zero? (rem x acc))			(recur (/ x acc) acc)
 				:else						(recur x (inc acc))))))
 
-; kleinster gemeinsamer Vielfacher 
-(defn no5 [n] 
+(defn pow [x y] (reduce * (repeat y x)))
+(defn pow10 [x] (pow 10 x))
+
+(defn split [n digits] 
+	(loop [v n idx digits acc []]
+		(let [weight (pow10 (dec idx))]
+			(if(zero? idx) acc 
+				(recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int(/ v  weight))))))))
+
+(defn palindrom? [vec]
+	(= vec (reverse vec)))
+
+(defn search-palindrom [n digits]
+	(if(palindrom? (split n digits)) n
+		(recur (dec n) digits)))
+
+; (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))
+(def products 
+	(filter #(palindrom? (split (* (first %) (last %)) 6 )) 
+		(for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))
+
+(defn mul-pair [v] 
+	(* (first v) (last v)))
+
+;(def no4
+;	(loop [list products acc [] maxi 0]
+;		if(empty? list) acc
+;			(recur (rest list) (if(> (mul-pair(first list)) maxi ) (first list) acc ) (max( maxi (mul-pair(first list))))))) 
+
+; kleinster gemeinsamer Vielfacher  
+(defn no5 [n]
 	(letfn [
-		(multiplier [n] (iterate (partial + n) n))
-		(kgv [a b]
-			(letfn [(f [a b]
-	 			(if(= (first a) (first b)) (first a)
-	 				(if(> (first a) (first b))
-	 					(recur a (rest b)) (recur (rest a) b))))]
-			(f (multiplier a) (multiplier b))))]
-	(reduce kgv (range 1 (inc n)))))
+		(divable? [a b] (zero? (rem a b)))
+		(pow [b e] (int(Math/pow b e)))
+		(max-aggregate [a b] (map max a b))
+		(count-div [n factor]
+			(loop [x n accu 0]
+				(if (divable? x factor) (recur (/ x factor) (inc accu)) accu)))]
+	(let [
+		primes '(2 3 5 7 11 13 17 19)
+		primeFactors (fn [n]
+			(loop [p primes accu []]
+				(if	(empty? p) accu
+					(recur (rest p) (conj accu (if(divable? n (first p)) (count-div n (first p)) 0))))))
+		exponents (reduce max-aggregate (map primeFactors (range 2 (inc n))))]	
+	(apply * (map pow primes exponents)))))
 
 (defn -main [& args]
  	(time(println (format "Problem No %d = %d" 1 (no1 1e3))))
  	(time(println (format "Problem No %d = %d" 2 (no2 4e6))))
  	(time(println (format "Problem No %d = %d" 3 (no3 600851475143))))
- 	(time(println (format "Problem No %d = %d" 5 (no5 10))))
+
+ 	(time(println (format "Problem No %d = %d" 5 (no5 20))))
   )

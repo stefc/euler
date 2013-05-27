@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"laz",
+				"lazy-seq"
+			],
+			[
+				"pow",
+				"pow10"
+			],
+			[
 				"do",
 				"doall"
 			],
@@ -40,21 +48,20 @@
 	"buffers":
 	[
 		{
-			"contents": "(ns euler.core\n  (:gen-class))\n\n; Multiples of 3 and 5\n; \n; Multiplier bestimmen\n; Filter Funktion\n; Reduce zum Aufsummieren\n;\n(defn no1 [n] ; 6.3 msec\n	(apply + (filter #(or \n			(zero? (mod % 5))\n			(zero? (mod % 3)))\n		(range n))))\n\n; Smarter but very slow ?\n;(defn no1 [n]\n;	(letfn [(where [x] ( eval (cons 'or (map (fn [y] (zero? (mod x y))) '(3 5)))))  ]	\n;   		(apply + (filter where (range n)))))\n\n; Even Fibonacci numbers\n\n; Lazy-Seq / take-while / filter / even-numbers\n\n;(defn no2 [n] ; 1.5 msec\n;	(letfn [(fib [a b] (cons a (lazy-seq (fib b (+ b a)))))]\n;		(apply + (take-while (fn [x] (< x n)) (filter even? (fib 1 2))))))\n\n(defn no2 [n] \n   (apply + (take-while #(< % n) (filter even? (map first (iterate (fn [[a b]] [b (+ a b)]) [1 2]))))))\n\n; Primzahlen Faktorisierung\n;\n(def primes  \n	(letfn [\n		; Sieve as Lazy Sequence\n		(siev [s] (cons (first s) (lazy-seq (siev (doall(filter #(not= 0 (mod % (first s))) (rest s)))))))]\n	(siev (iterate inc 2))))\n\n; filter #(zero? (mod t %)) \n(defn no3 \n	( [n] (no3 n (int (Math/sqrt n)) 0 primes))\n	( [n to acc prim] \n		(if( > (first prim) to) \n			acc \n			(recur n to (if(zero? (mod n (first prim))) (first prim) acc) (rest prim)))))\n\n\n;		apply max (filter #(zero? (mod n %)) (primes (int (Math/sqrt n)) n))))\n\n; (int (Math/sqrt 13195))\n; (int (Math/sqrt 600851475143))\n\n(defn -main [& args]\n 	(time(println (format \"Problem No %d = %d\" 1 (no1 1e3))))\n 	(time(println (format \"Problem No %d = %d\" 2 (no2 4e6))))\n  )\n",
-			"file": "src/euler/core.clj",
-			"file_size": 1524,
-			"file_write_time": 1369520492000000,
+			"contents": "#<CompilerException java.lang.RuntimeException: EOF while reading, starting at line 51, compiling:(euler/core.clj:82:1)>\nnREPL server started on port 58706\nREPL-y 0.1.10\nClojure 1.5.1\n    Exit: Control+D or (exit) or (quit)\nCommands: (user/help)\n    Docs: (doc function-name-here)\n          (find-doc \"part-of-name-here\")\n  Source: (source function-name-here)\n          (user/sourcery function-name-here)\n Javadoc: (javadoc java-object-or-class-here)\nExamples from clojuredocs.org: [clojuredocs or cdoc]\n          (user/clojuredocs name-here)\n          (user/clojuredocs \"ns-here\" \"name-here\")\neuler.core=> (take 4 (for [x (range 99 999 )] ([x])))\n(take 4 (for [x (range 99 999 )] ([x])))\nArityException Wrong number of args (0) passed to: PersistentVector  clojure.lang.AFn.throwArity (AFn.java:437)\n\neuler.core=> (take 4 (for [x (range 99 999 )] [x]))\n(take 4 (for [x (range 99 999 )] [x]))\n([99] [100] [101] [102])\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11))] [x y]))\n#'euler.core/products\neuler.core=> (take 4 (products))\n(take 4 (products))\nClassCastException clojure.lang.LazySeq cannot be cast to clojure.lang.IFn  euler.core/eval1235 (NO_SOURCE_FILE:1)\n\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11))] [x y]))\n#'euler.core/products\neuler.core=> (take 4 (products))\n(take 4 (products))\nClassCastException clojure.lang.LazySeq cannot be cast to clojure.lang.IFn  euler.core/eval1263 (NO_SOURCE_FILE:1)\n\neuler.core=> (take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11) )] [x y]))\n([998 990] [998 979] [998 968])\neuler.core=> (take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11) )] [x y]))\n([998 990] [998 979] [998 968])\neuler.core=> (defn pow [x y] (reduce * (repeat y x)))\n(defn pow10 [x] (pow 10 x))\n\n(defn split [n digits] \n	(loop [v n idx digits acc []]\n		(let [weight (pow10 (dec idx))]\n			(if(zero? idx) acc \n				(recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int(/ v  weight))))))))\n\n(defn palindrom? [vec]\n	(= vec (reverse vec))\n\n(defn search-palindrom [n digits]\n	(if(palindrom? (split n digits)) n\n		(recur (dec n) digits)))\n\n(defn pow [x y] (reduce * (repeat y x)))\n#'euler.core/pow\neuler.core=> (defn pow10 [x] (pow 10 x))\n#'euler.core/pow10\neuler.core=> \n\neuler.core=> (defn split [n digits] \n        #_=> (loop [v n idx digits acc []]\n        #_=> (let [weight (pow10 (dec idx))]\n        #_=> (if(zero? idx) acc \n        #_=> (recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int (/ v  weight))))))))\n#'euler.core/split\neuler.core=> \n\neuler.core=> (defn palindrom? [vec]\n        #_=> (= vec (reverse vec))\n        #_=> \n        #_=> (defn search-palindrom [n digits]\n        #_=> (if(palindrom? (split n digits)) n\n        #_=> (recur (dec n) digits)))\n        #_=> \n        #_=> (take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11) )] [x y]))\n        #_=> )\n)\n#'euler.core/palindrom?\neuler.core=> (take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(take 3 (for [x (reverse(range 99 999)) y (reverse(range 99 999 11) )] [x y]))\n([998 990] [998 979] [998 968])\neuler.core=> (defn pow [x y] (reduce * (repeat y x)))\n(defn pow10 [x] (pow 10 x))\n\n(defn split [n digits] \n	(loop [v n idx digits acc []]\n		(let [weight (pow10 (dec idx))]\n			(if(zero? idx) acc \n				(recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int(/ v  weight))))))))\n\n(defn palindrom? [vec]\n	(= vec (reverse vec))\n(defn pow [x y] (reduce * (repeat y x)))\n#'euler.core/pow\neuler.core=> (defn pow10 [x] (pow 10 x))\n#'euler.core/pow10\neuler.core=> \n\neuler.core=> (defn split [n digits] \n        #_=> (loop [v n idx digits acc []]\n        #_=> (let [weight (pow10 (dec idx))]\n        #_=> (if(zero? idx) acc \n        #_=> (recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int (/ v  weight))))))))\n#'euler.core/split\neuler.core=> \n\neuler.core=> (defn palindrom? [vec]\n        #_=> (= vec (reverse vec))\n        #_=> )\n)\n#'euler.core/palindrom?\neuler.core=> (defn pow10 [x] (pow 10 x))\n\n(defn pow10 [x] (pow 10 x))\n#'euler.core/pow10\neuler.core=> \n\neuler.core=> \n(defn split [n digits] \n	(loop [v n idx digits acc []]\n		(let [weight (pow10 (dec idx))]\n			(if(zero? idx) acc \n				(recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int(/ v  weight))))))))\n\n\n\neuler.core=> (defn split [n digits] \n        #_=> (loop [v n idx digits acc []]\n        #_=> (let [weight (pow10 (dec idx))]\n        #_=> (if(zero? idx) acc \n        #_=> (recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int (/ v  weight))))))))\n#'euler.core/split\neuler.core=> \n\neuler.core=> \n(defn palindrom? [vec]\n	(= vec (reverse vec))\n\n\neuler.core=> (defn palindrom? [vec]\n        #_=> (= vec (reverse vec))\n        #_=> )\n)\n#'euler.core/palindrom?\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11))] [x y]))\n#'euler.core/products\neuler.core=> \n\neuler.core=> (take 10 products)\n(take 10 products)\n([998 990] [998 979] [998 968] [998 957] [998 946] [998 935] [998 924] [998 913] [998 902] [998 891])\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11)) :when (palindrom? (* x y) 6)] [x y]))\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11)) :when (palindrom? (* x y) 6)] [x y]))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\nArityException Wrong number of args (2) passed to: core$palindrom-QMARK-  clojure.lang.AFn.throwArity (AFn.java:437)\n\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11))] [x y]))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n([998 990] [998 979] [998 968] [998 957] [998 946] [998 935] [998 924] [998 913] [998 902] [998 891])\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y (* x y)]))\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11))] [x y (* x y)]))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n([998 990 988020] [998 979 977042] [998 968 966064] [998 957 955086] [998 946 944108] [998 935 933130] [998 924 922152] [998 913 911174] [998 902 900196] [998 891 889218])\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y '(* x y) (split (* x y) 6 )]))\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11))] [x y '(* x y) (split (* x y) 6 )]))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n([998 990 (* x y) [9 8 8 0 2 0]] [998 979 (* x y) [9 7 7 0 4 2]] [998 968 (* x y) [9 6 6 0 6 4]] [998 957 (* x y) [9 5 5 0 8 6]] [998 946 (* x y) [9 4 4 1 0 8]] [998 935 (* x y) [9 3 3 1 3 0]] [998 924 (* x y) [9 2 2 1 5 2]] [998 913 (* x y) [9 1 1 1 7 4]] [998 902 (* x y) [9 0 0 1 9 6]] [998 891 (* x y) [8 8 9 2 1 8]])\neuler.core=> (def products (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y (* x y) (split (* x y) 6 )]))\n(def products (for [x (reverse(range 99 999)) y (reverse(range 99 9 99 11))] [x y (* x y) (split (* x y) 6 )]))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n([998 990 988020 [9 8 8 0 2 0]] [998 979 977042 [9 7 7 0 4 2]] [998 968 966064 [9 6 6 0 6 4]] [998 957 955086 [9 5 5 0 8 6]] [998 946 944108 [9 4 4 1 0 8]] [998 935 933130 [9 3 3 1 3 0]] [998 924 922152 [9 2 2 1 5 2]] [998 913 911174 [9 1 1 1 7 4]] [998 902 900196 [9 0 0 1 9 6]] [998 891 889218 [8 8 9 2 1 8]])\neuler.core=> (def products (filter #(palindrom? (split (% 6))) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n(def products (filter #(palindrom? (split (% 6))) (for [x (reverse( range 99 999)) y (reverse(range 99 999 11))] [x y])))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\nIndexOutOfBoundsException   clojure.lang.PersistentVector.arrayFor (PersistentVector.java:107)\n\neuler.core=> (def products (filter #(palindrom? (split ((first %) (last %) 6))) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n(def products (filter #(palindrom? (split ((first %) (last %) 6)))  (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\nClassCastException java.lang.Long cannot be cast to clojure.lang.IFn  euler.core/fn--1652 (NO_SOURCE_FILE:1)\n\neuler.core=> (def products (filter #(palindrom? (split ((* (first %) (last %) 6 ))) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n(def products (filter #(palindrom? (split ((* (first %) (last %) 6  ))) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n        #_=> )\n)\nArityException Wrong number of args (1) passed to: core$filter  clojure.lang.AFn.throwArity (AFn.java:437)\n\neuler.core=> (def products (filter #(palindrom? (split (* (first %) (last %) 6 ))) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n(def products (filter #(palindrom? (split (* (first %) (last %) 6 ) )) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\nArityException Wrong number of args (1) passed to: core$split  clojure.lang.AFn.throwArity (AFn.java:437)\n\neuler.core=> (def products (filter #(palindrom? (split (* (first %) (last %)) 6 )) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n(def products (filter #(palindrom? (split (* (first %) (last %)) 6  )) (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n([995 583] [995 517] [993 913] [991 121] [987 286] [987 143] [982 869] [979 605] [978 418] [978 209])\neuler.core=> \n(defn mul-pair [v] \n	(* (first v) (last v)))\n\n(def no4\n	(loop [list products acc [] maxi 0]\n		if(empty? list) acc\n			(recur (rest list) (if(> (mulpair(first list)) maxi ) (first list) acc ) (max( maxi (mul-pair(first list))))))) \n\n\n\neuler.core=> (defn mul-pair [v] \n        #_=> (* (first v) (last v)))\n#'euler.core/mul-pair\neuler.core=> \n\neuler.core=> (def no4\n        #_=> (loop [list products acc [] maxi 0]\n        #_=> if(empty? list) acc\n        #_=> (recur (rest list) (if(> (mulpair(first list)) maxi ) (first list)  acc ) (max( maxi (mul-pair(first list))))))) \nCompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n\neuler.core=> (mul-pair [2 4])\n(mul-pair [2 4])\n8\neuler.core=> \n(defn mul-pair [v] \n	(* (first v) (last v)))\n\n(def no4\n	(loop [list products acc [] maxi 0]\n		if(empty? list) acc\n			(recur (rest list) (if(> (mulpair(first list)) maxi) (first list) acc) (max( maxi (mul-pair(first list)))))))\n\n\neuler.core=> (defn mul-pair [v] \n        #_=> (* (first v) (last v)))\n#'euler.core/mul-pair\neuler.core=> \n\neuler.core=> (def no4\n        #_=> (loop [list products acc [] maxi 0]\n        #_=> if(empty? list) acc\n        #_=> (recur (rest list) (if(> (mulpair(first list)) maxi) (first list) a cc) (max( maxi (mul-pair(first list)))))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n(defn mul-pair [v] \n	(* (first v) (last v)))\n\n(def no4\n	(loop [list products acc [] maxi 0]\n		if(empty? list) acc\n			(recur (rest list) (if(> (mul-pair(first list)) maxi) (first list) acc) (max( maxi (mul-pair(first list)))))))\n\n\neuler.core=> (defn mul-pair [v] \n        #_=> (* (first v) (last v)))\n#'euler.core/mul-pair\neuler.core=> \n\neuler.core=> (def no4\n        #_=> (loop [list products acc [] maxi 0]\n        #_=> if(empty? list) acc\n        #_=> (recur (rest list) (if(> (mul-pair(first list)) maxi) (first list)  acc) (max( maxi (mul-pair(first list)))))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n(def no4\n	(loop [list products acc [] maxi 0]\n		if(empty? list) acc\n			(recur (rest list) (if(> (mul-pair(first list)) maxi) (first list) acc) (max( maxi (mul-pair(first list)))))))\n\n\neuler.core=> (def no4\n        #_=> (loop [list products acc [] maxi 0]\n        #_=> if(empty? list) acc\n        #_=> (recur (rest list) (if(> (mul-pair(first list)) maxi) (first list)  acc) (max( maxi (mul-pair(first list)))))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n(def no4\n	(loop [list products acc [] maxi 0]\n		if(empty? list) acc\n			(recur (rest list) (if(> (mul-pair(first list)) maxi) (first list) (acc)) (max( maxi (mul-pair(first list)))))))\n\n\neuler.core=> (def no4\n        #_=> (loop [list products acc [] maxi 0]\n        #_=> if(empty? list) acc\n        #_=> (recur (rest list) (if(> (mul-pair(first list)) maxi) (first list)  (acc)) (max( maxi (mul-pair(first list)))))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n(def no4\n	(loop [list products acc [] maxi 0]\n		if(empty? list) acc\n			(recur (rest list) (if(> (mul-pair(first list)) maxi) (first list) (acc)) (max( maxi (mul-pair(first list)))))))\n\n\neuler.core=> (def no4\n        #_=> (loop [list products acc [] maxi 0]\n        #_=> if(empty? list) acc\n        #_=> (recur (rest list) (if(> (mul-pair(first list)) maxi) (first list)  (acc)) (max( maxi (mul-pair(first list)))))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n(def no4\n	(loop [list products acc [] maxi 0]\n		if(empty? list) acc\n			(recur (rest list) (if(> (mul-pair(first list)) maxi) (first list) acc) (max( maxi (mul-pair(first list)))))))\n\n\neuler.core=> (def no4\n        #_=> (loop [list products acc [] maxi 0]\n        #_=> if(empty? list) acc\n        #_=> (recur (rest list) (if(> (mul-pair(first list)) maxi) (first list)  acc) (max( maxi (mul-pair(first list)))))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> ",
 			"settings":
 			{
-				"buffer_size": 1469,
-				"line_ending": "Unix"
+				"buffer_size": 14803,
+				"line_ending": "Unix",
+				"name": "*REPL* [clojure]",
+				"scratch": true
 			}
 		},
 		{
-			"file": "test/euler/core_test.clj",
+			"file": "src/euler/core.clj",
 			"settings":
 			{
-				"buffer_size": 178,
+				"buffer_size": 2457,
 				"line_ending": "Unix"
 			}
 		}
@@ -62,11 +69,43 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 54.0,
+		"height": 390.0,
 		"selected_items":
 		[
 			[
+				"gitst",
+				"Git: Status"
+			],
+			[
+				"git",
+				"Git: Commit"
+			],
+			[
 				"leinrun",
+				"Build: Lein: Run"
+			],
+			[
+				"gitc",
+				"Git: Commit"
+			],
+			[
+				"leir",
+				"Build: Lein: Run"
+			],
+			[
+				"leit",
+				"Build: Lein: Test"
+			],
+			[
+				"leint",
+				"Build: Lein: Test"
+			],
+			[
+				"leinr",
+				"Build: Lein: Run"
+			],
+			[
+				"lein run",
 				"Build: Lein: Run"
 			],
 			[
@@ -90,10 +129,6 @@
 				"Build: Lein: Test"
 			],
 			[
-				"lein run",
-				"Build: Lein: Run"
-			],
-			[
 				"git com",
 				"Git: Commit"
 			],
@@ -104,10 +139,6 @@
 			[
 				"git add",
 				"Git: Add..."
-			],
-			[
-				"git",
-				"Git: Status"
 			],
 			[
 				"lein ",
@@ -143,6 +174,7 @@
 	},
 	"file_history":
 	[
+		"/home/stefc/Projects/euler/test/euler/core_test.clj",
 		"/home/stefc/Projects/euler/src/euler/core.clj",
 		"/home/stefc/Projects/euler/src/euler/project.clj",
 		"/home/stefc/Projects/rubiks-cube/project.clj",
@@ -167,6 +199,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\n",
 			" "
 		],
 		"highlight": true,
@@ -185,23 +218,60 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/euler/core.clj",
 					"settings":
 					{
-						"buffer_size": 1469,
+						"buffer_size": 14803,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1188,
-								1188
+								14803,
+								14803
+							]
+						],
+						"settings":
+						{
+							"auto_complete": true,
+							"auto_indent": false,
+							"detect_indentation": false,
+							"gutter": false,
+							"history_arrows": true,
+							"indent_subsequent_lines": false,
+							"line_numbers": false,
+							"repl": true,
+							"repl_external_id": "clojure",
+							"repl_id": "d464e27058ab4798a43794d9e4ca3157",
+							"smart_indent": false,
+							"syntax": "Packages/Clojure/Clojure.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 8353.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/euler/core.clj",
+					"settings":
+					{
+						"buffer_size": 2457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1772,
+								1772
 							]
 						],
 						"settings":
@@ -210,33 +280,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 492.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "test/euler/core_test.clj",
-					"settings":
-					{
-						"buffer_size": 178,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								163,
-								163
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Clojure/Clojure.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1012.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
