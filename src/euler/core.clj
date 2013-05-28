@@ -5,6 +5,8 @@
 	(:require [euler.problem3])
 	(:require [euler.problem4])
 	(:require [euler.problem5])
+	(:require [euler.problem6])
+	(:require [euler.problem7])
 )
 
 ; Smarter but very slow ?
@@ -18,4 +20,6 @@
  	(time(println (format "Problem No %d = %d" 3 (euler.problem3/calc 600851475143))))
  	(time(println (format "Problem No %d = %d" 4 (euler.problem4/calc 3))))
  	(time(println (format "Problem No %d = %d" 5 (euler.problem5/calc 20))))
+ 	(time(println (format "Problem No %d = %d" 6 (euler.problem6/calc 100))))
+ 	(time(println (format "Problem No %d = %d" 7 (euler.problem7/calc 10001))))
   )
