@@ -1,4 +1,4 @@
-(ns euler.problem7)
+(ns euler.problem10)
 
 (defn lazy-primes []
     (let [next-prime
@@ -9,6 +9,4 @@
             (cons 2 (lazy-seq (next-prime 3 [])))))
 
 (defn calc [n]
-	(first 
-		(drop (dec n) 
-			(lazy-primes))))
+	(apply + (take-while #(< % n) (lazy-primes))))
