@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"ident",
+				"identity"
+			],
+			[
 				"let",
 				"letfn"
 			],
@@ -55,23 +59,39 @@
 			"file": "src/euler/core.clj",
 			"settings":
 			{
-				"buffer_size": 2450,
+				"buffer_size": 1823,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "test/euler/core_test.clj",
+			"file": "src/euler/problem3.clj",
 			"settings":
 			{
-				"buffer_size": 279,
+				"buffer_size": 236,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: if in this context, compiling:(euler/core.clj:67:2)>\nnREPL server started on port 34157\nREPL-y 0.1.10\nClojure 1.5.1\n    Exit: Control+D or (exit) or (quit)\nCommands: (user/help)\n    Docs: (doc function-name-here)\n          (find-doc \"part-of-name-here\")\n  Source: (source function-name-here)\n          (user/sourcery function-name-here)\n Javadoc: (javadoc java-object-or-class-here)\nExamples from clojuredocs.org: [clojuredocs or cdoc]\n          (user/clojuredocs name-here)\n          (user/clojuredocs \"ns-here\" \"name-here\")\neuler.core=> (defn sieve [s]\n    (cons (first s)\n          (lazy-seq (sieve (filter (fn [n] (not (zero? (mod n (first s)))))\n                                   (rest s))))))\n \n(defn primesLazy [maxPrime]\n   (take-while (fn [prime] (<= prime maxPrime)) (sieve (iterate inc 2))))\n\n(defn sieve [s]\n        #_=>     (cons (first s)\n        #_=>           (lazy-seq (sieve (filter (fn [n] (not (zero? (mod n (firs t s)))))\n        #_=>                                    (rest s))))))\n#'euler.core/sieve\neuler.core=>  \n\neuler.core=> (defn primesLazy [maxPrime]\n        #_=>    (take-while (fn [prime] (<= prime maxPrime)) (sieve (iterate inc  2))))\n#'euler.core/primesLazy\neuler.core=> \n\neuler.core=> (primesLazy 20)\n(primesLazy 20)\n(2 3 5 7 11 13 17 19)\neuler.core=> (primesLazy 13)\n(primesLazy 13)\n(2 3 5 7 11 13)\neuler.core=> (reverse(primesLazy 13))\n(reverse(primesLazy 13))\n(13 11 7 5 3 2)\neuler.core=> (def primes '(13 11 7 5 3 2))\n \n(defn divCount [n factor]\n	(loop [x n accu 0]\n		(if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n \n(defn primeFactors \n	(fn [n]\n		(loop [p primes accu '()]\n			(cond\n				(empty? p) (reverse accu)\n				(not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n				:else (recur (rest p) (cons (divCount n (first p)) accu))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (range 2 21))))\n\n(def primes '(13 11 7 5 3 2))\n#'euler.core/primes\neuler.core=>  \n\neuler.core=> (defn divCount [n factor]\n        #_=> (loop [x n accu 0]\n        #_=> (if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n#'euler.core/divCount\neuler.core=>  \n\neuler.core=> (defn primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu '()]\n        #_=> (cond\n        #_=> (empty? p) (reverse accu)\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n        #_=> :else (recur (rest p) (cons (divCount n (first p)) accu))))))\nIllegalArgumentException Parameter declaration fn should be a vector  clojure.core/assert-valid-fdecl (core.clj:6732)\n\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( range 2 21))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: primeFactors in this context, compiling:(NO_SOURCE_PATH:1:49) \n\neuler.core=> \n\neuler.core=> (def primes '(13 11 7 5 3 2))\n \n(defn divCount [n factor]\n	(loop [x n accu 0]\n		(if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n \n(def primeFactors \n	(fn [n]\n		(loop [p primes accu '()]\n			(cond\n				(empty? p) (reverse accu)\n				(not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n				:else (recur (rest p) (cons (divCount n (first p)) accu))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (range 2 21))))\n(def primes '(13 11 7 5 3 2))\n#'euler.core/primes\neuler.core=>  \n\neuler.core=> (defn divCount [n factor]\n        #_=> (loop [x n accu 0]\n        #_=> (if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n#'euler.core/divCount\neuler.core=>  \n\neuler.core=> (def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu '()]\n        #_=> (cond\n        #_=> (empty? p) (reverse accu)\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n        #_=> :else (recur (rest p) (cons (divCount n (first p)) accu))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( range 2 21))))\n#'euler.core/exponents\neuler.core=> (apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n(apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n720720\neuler.core=> (def primes '(13 11 7 5 3 2))\n \n(defn divCount [n factor]\n	(loop [x n accu 0]\n		(if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n \n(def primeFactors \n	(fn [n]\n		(loop [p primes accu '()]\n			(cond\n				(empty? p) accu\n				(not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n				:else (recur (rest p) (cons (divCount n (first p)) accu))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (range 2 21))))\n(def primes '(13 11 7 5 3 2))\n#'euler.core/primes\neuler.core=>  \n\neuler.core=> (defn divCount [n factor]\n        #_=> (loop [x n accu 0]\n        #_=> (if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n#'euler.core/divCount\neuler.core=>  \n\neuler.core=> (def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu '()]\n        #_=> (cond\n        #_=> (empty? p) accu\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n        #_=> :else (recur (rest p) (cons (divCount n (first p)) accu))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( range 2 21))))\n#'euler.core/exponents\neuler.core=> (apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n(apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n725735010\neuler.core=> exponents\nexponents\n(4 2 1 1 1 1)\neuler.core=> primes\nprimes\n(13 11 7 5 3 2)\neuler.core=> (cons 4 '(1 3))\n(cons 4 '(1 3))\n(4 1 3)\neuler.core=> (conj 4 '(1 3))\n(conj 4 '(1 3))\nClassCastException java.lang.Long cannot be cast to clojure.lang.IPersistentCollection  clojure.core/conj (core.clj:83)\n\neuler.core=> (conj '(1 3) 4)\n(conj '(1 3) 4)\n(4 1 3)\neuler.core=> (map primeFactors (range 2 21))\n(map primeFactors (range 2 21))\n((1 0 0 0 0 0) (0 1 0 0 0 0) (2 0 0 0 0 0) (0 0 1 0 0 0) (1 1 0 0 0 0) (0 0 0 1 0 0) (3 0 0 0 0 0) (0 2 0 0 0 0) (1 0 1 0 0 0) (0 0 0 0 1 0) (2 1 0 0 0 0) (0 0 0 0 0 1) (1 0 0 1 0 0) (0 1 1 0 0 0) (4 0 0 0 0 0) (0 0 0 0 0 0) (1 2 0 0 0 0) (0 0 0 0 0 0) (2 0 1 0 0 0))\neuler.core=> \n(def primeFactors \n	(fn [n]\n		(loop [p primes accu '()]\n			(cond\n				(empty? p) accu\n				(not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n				:else (recur (rest p) (cons (divCount n (first p)) accu))))))\n  \n\n\neuler.core=> (def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu '()]\n        #_=> (cond\n        #_=> (empty? p) accu\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n        #_=> :else (recur (rest p) (cons (divCount n (first p)) accu))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=> (map primeFactors (range 2 21))\n(map primeFactors (range 2 21))\n((1 0 0 0 0 0) (0 1 0 0 0 0) (2 0 0 0 0 0) (0 0 1 0 0 0) (1 1 0 0 0 0) (0 0 0 1 0 0) (3 0 0 0 0 0) (0 2 0 0 0 0) (1 0 1 0 0 0) (0 0 0 0 1 0) (2 1 0 0 0 0) (0 0 0 0 0 1) (1 0 0 1 0 0) (0 1 1 0 0 0) (4 0 0 0 0 0) (0 0 0 0 0 0) (1 2 0 0 0 0) (0 0 0 0 0 0) (2 0 1 0 0 0))\neuler.core=> (map primeFactors '(20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2))\n(map primeFactors '(20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3  2))\n((2 0 1 0 0 0) (0 0 0 0 0 0) (1 2 0 0 0 0) (0 0 0 0 0 0) (4 0 0 0 0 0) (0 1 1 0 0 0) (1 0 0 1 0 0) (0 0 0 0 0 1) (2 1 0 0 0 0) (0 0 0 0 1 0) (1 0 1 0 0 0) (0 2 0 0 0 0) (3 0 0 0 0 0) (0 0 0 1 0 0) (1 1 0 0 0 0) (0 0 1 0 0 0) (2 0 0 0 0 0) (0 1 0 0 0 0) (1 0 0 0 0 0))\neuler.core=> (take-while #(= 2 %) (iterate dec 20))\n(take-while #(= 2 %) (iterate dec 20))\n()\neuler.core=> (take 4 (iterate dec 20))\n(take 4 (iterate dec 20))\n(20 19 18 17)\neuler.core=> (take-while #(> 2 %) (iterate dec 20))\n(take-while #(> 2 %) (iterate dec 20))\n()\neuler.core=> (take-while #(> % 2) (iterate dec 20))\n(take-while #(> % 2) (iterate dec 20))\n(20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3)\neuler.core=> (take-while #(> % 1) (iterate dec 20))\n(take-while #(> % 1) (iterate dec 20))\n(20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2)\neuler.core=> (def primeFactors \n	(fn [n]\n		(loop [p primes accu '()]\n			(cond\n				(empty? p) accu\n				(not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n				:else (recur (rest p) (cons (divCount n (first p)) accu))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (take-while (> % 1) (iterate dec 20)))))\n \n\n(def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu '()]\n        #_=> (cond\n        #_=> (empty? p) accu\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n        #_=> :else (recur (rest p) (cons (divCount n (first p)) accu))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( take-while (> % 1) (iterate dec 20)))))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: % in this context, compiling:(NO_SOURCE_PATH:1:79) \n\neuler.core=>  \n\neuler.core=> \n\neuler.core=> (def primeFactors \n	(fn [n]\n		(loop [p primes accu '()]\n			(cond\n				(empty? p) accu\n				(not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n				:else (recur (rest p) (cons (divCount n (first p)) accu))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (take-while #(> % 1) (iterate dec 20)))))\n(def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu '()]\n        #_=> (cond\n        #_=> (empty? p) accu\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n        #_=> :else (recur (rest p) (cons (divCount n (first p)) accu))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( take-while #(> % 1) (iterate dec 20)))))\n#'euler.core/exponents\neuler.core=> exponents\nexponents\n(4 2 1 1 1 1)\neuler.core=> (apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n(apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n725735010\neuler.core=> (def primeFactors \n	(fn [n]\n		(loop [p primes accu '()]\n			(cond\n				(empty? p) accu\n				(not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n				:else (recur (rest p) (cons (divCount n (first p)) accu))))))\n  \n \n\n(def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu '()]\n        #_=> (cond\n        #_=> (empty? p) accu\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (cons 0 accu))\n        #_=> :else (recur (rest p) (cons (divCount n (first p)) accu))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> \n\neuler.core=> (primeFactors 22)\n(primeFactors 22)\n(1 0 0 0 1 0)\neuler.core=> (primeFactors 2)\n(primeFactors 2)\n(1 0 0 0 0 0)\neuler.core=> (primeFactors 4)\n(primeFactors 4)\n(2 0 0 0 0 0)\neuler.core=> (primes)\n(primes)\nClassCastException clojure.lang.PersistentList cannot be cast to clojure.lang.IFn  euler.core/eval1568 (NO_SOURCE_FILE:1)\n\neuler.core=> primes\nprimes\n(13 11 7 5 3 2)\neuler.core=> (def primes '(2 3 5 7 11 13))\n \n(defn divCount [n factor]\n	(loop [x n accu 0]\n		(if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n \n(def primeFactors \n	(fn [n]\n		(loop [p primes accu []]\n			(cond\n				(empty? p) (list accu)\n				(not (zero? (rem n (first p)))) (recur (rest p) (conj accu 0))\n				:else (recur (rest p) (conj accu (divCount n (first p))))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (take 19 (iterate inc 2)))))\n \n(apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n\n(def primes '(2 3 5 7 11 13))\n#'euler.core/primes\neuler.core=>  \n\neuler.core=> (defn divCount [n factor]\n        #_=> (loop [x n accu 0]\n        #_=> (if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n#'euler.core/divCount\neuler.core=>  \n\neuler.core=> (def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu []]\n        #_=> (cond\n        #_=> (empty? p) (list accu)\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (conj accu 0))\n        #_=> :else (recur (rest p) (conj accu (divCount n (first p))))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( take 19 (iterate inc 2)))))\n#'euler.core/exponents\neuler.core=>  \n\neuler.core=> (apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\nClassCastException clojure.lang.PersistentVector cannot be cast to java.lang.Number  clojure.lang.Numbers.gt (Numbers.java:227)\n\neuler.core=> \n\neuler.core=> primes\nprimes\n(2 3 5 7 11 13)\neuler.core=> exponents\nexponents\n()\neuler.core=> (primeFactors 2)\n(primeFactors 2)\n([1 0 0 0 0 0])\neuler.core=> (def primes '(2 3 5 7 11 13))\n \n(defn divCount [n factor]\n	(loop [x n accu 0]\n		(if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n \n(def primeFactors \n	(fn [n]\n		(loop [p primes accu []]\n			(cond\n				(empty? p) accu\n				(not (zero? (rem n (first p)))) (recur (rest p) (conj accu 0))\n				:else (recur (rest p) (conj accu (divCount n (first p))))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (take 19 (iterate inc 2)))))\n \n(apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n(def primes '(2 3 5 7 11 13))\n#'euler.core/primes\neuler.core=>  \n\neuler.core=> (defn divCount [n factor]\n        #_=> (loop [x n accu 0]\n        #_=> (if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n#'euler.core/divCount\neuler.core=>  \n\neuler.core=> (def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu []]\n        #_=> (cond\n        #_=> (empty? p) accu\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (conj accu 0))\n        #_=> :else (recur (rest p) (conj accu (divCount n (first p))))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( take 19 (iterate inc 2)))))\n#'euler.core/exponents\neuler.core=>  \n\neuler.core=> (apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n720720\neuler.core=> exponents\nexponents\n(4 2 1 1 1 1)\neuler.core=> primes\nprimes\n(2 3 5 7 11 13)\neuler.core=> (take 19 (iterate inc 2))\n(take 19 (iterate inc 2))\n(2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20)\neuler.core=> (def primes '(2 3 5 7 11 13 17 19))\n \n(defn divCount [n factor]\n	(loop [x n accu 0]\n		(if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n \n(def primeFactors \n	(fn [n]\n		(loop [p primes accu []]\n			(cond\n				(empty? p) accu\n				(not (zero? (rem n (first p)))) (recur (rest p) (conj accu 0))\n				:else (recur (rest p) (conj accu (divCount n (first p))))))))\n  \n \n(def exponents (reduce (fn [a b] (map max a b)) (map primeFactors (take 19 (iterate inc 2)))))\n \n(apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n\n(def primes '(2 3 5 7 11 13 17 19))\n#'euler.core/primes\neuler.core=>  \n\neuler.core=> (defn divCount [n factor]\n        #_=> (loop [x n accu 0]\n        #_=> (if (zero? (rem x factor)) (recur (/ x factor) (inc accu)) accu)))\n#'euler.core/divCount\neuler.core=>  \n\neuler.core=> (def primeFactors \n        #_=> (fn [n]\n        #_=> (loop [p primes accu []]\n        #_=> (cond\n        #_=> (empty? p) accu\n        #_=> (not (zero? (rem n (first p)))) (recur (rest p) (conj accu 0))\n        #_=> :else (recur (rest p) (conj accu (divCount n (first p))))))))\n#'euler.core/primeFactors\neuler.core=>   \n\neuler.core=>  \n\neuler.core=> (def exponents (reduce (fn [a b] (map max a b)) (map primeFactors ( take 19 (iterate inc 2)))))\n#'euler.core/exponents\neuler.core=>  \n\neuler.core=> (apply * (map (fn [b e] (int(Math/pow b e))) primes exponents))\n232792560\neuler.core=> \n\neuler.core=> (defn pow [x y] (reduce * (repeat y x)))\n(defn pow10 [x] (pow 10 x))\n\n(defn split [n digits] \n	(loop [v n idx digits acc []]\n		(let [weight (pow10 (dec idx))]\n			(if(zero? idx) acc \n				(recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int(/ v  weight))))))))\n\n(defn palindrom? [vec]\n	(= vec (reverse vec)))\n\n(defn search-palindrom [n digits]\n	(if(palindrom? (split n digits)) n\n		(recur (dec n) digits)))\n\n; (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y]))\n(def products \n	(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y])))\n\n(defn pow [x y] (reduce * (repeat y x)))\n#'euler.core/pow\neuler.core=> (defn pow10 [x] (pow 10 x))\n#'euler.core/pow10\neuler.core=> \n\neuler.core=> (defn split [n digits] \n        #_=> (loop [v n idx digits acc []]\n        #_=> (let [weight (pow10 (dec idx))]\n        #_=> (if(zero? idx) acc \n        #_=> (recur (- v (* weight (int(/ v weight)) )) (dec idx) (conj acc (int (/ v  weight))))))))\n#'euler.core/split\neuler.core=> \n\neuler.core=> (defn palindrom? [vec]\n        #_=> (= vec (reverse vec)))\n#'euler.core/palindrom?\neuler.core=> \n\neuler.core=> (defn search-palindrom [n digits]\n        #_=> (if(palindrom? (split n digits)) n\n        #_=> (recur (dec n) digits)))\n#'euler.core/search-palindrom\neuler.core=> \n\neuler.core=> ; (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x  y]))\n\neuler.core=> (def products \n        #_=> (filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (for [x (reverse(range 99 999)) y (reverse(range 99 999 11))] [x y] )))\n#'euler.core/products\neuler.core=> \n\neuler.core=> (products)\n(products)\nClassCastException clojure.lang.LazySeq cannot be cast to clojure.lang.IFn  euler.core/eval1792 (NO_SOURCE_FILE:1)\n\neuler.core=> (zipmap (range 9 15) (range 2 10))\n(zipmap (range 9 15) (range 2 10))\n{14 7, 13 6, 12 5, 11 4, 10 3, 9 2}\neuler.core=> (map (range 9 15) (range 2 10))\n(map (range 9 15) (range 2 10))\nClassCastException clojure.lang.LazySeq cannot be cast to clojure.lang.IFn  clojure.core/map/fn--4207 (core.clj:2485)\n\neuler.core=> (map (fn [a b] (a b)) (range 9 15) (range 2 10))\n(map (fn [a b] (a b)) (range 9 15) (range 2 10))\nClassCastException java.lang.Long cannot be cast to clojure.lang.IFn  euler.core/eval1798/fn--1799 (NO_SOURCE_FILE:1)\n\neuler.core=> (map (fn [a b] (+ a b)) (range 9 15) (range 2 10))\n(map (fn [a b] (+ a b)) (range 9 15) (range 2 10))\n(11 13 15 17 19 21)\neuler.core=> (map (fn [a b] (list a b)) (range 9 15) (range 2 10))\n(map (fn [a b] (list a b)) (range 9 15) (range 2 10))\n((9 2) (10 3) (11 4) (12 5) (13 6) (14 7))\neuler.core=> (map (fn [a b] (list a b)) (range 9 15) (range 2 10))\n(map (fn [a b] (list a b)) (range 9 15) (range 2 10))\n((9 2) (10 3) (11 4) (12 5) (13 6) (14 7))\neuler.core=> (map (fn [a b] (list a b)) (range 9 15) (range 2 10))\n(map (fn [a b] (list a b)) (range 9 15) (range 2 10))\n((9 2) (10 3) (11 4) (12 5) (13 6) (14 7))\neuler.core=> (def products \n	(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(map (fn [a b] (+ a b)) (reverse(range 99 999)) (reverse(range 99 999)))))\n(def products \n        #_=> (filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (map (fn [a b] (+ a b)) (reverse(range 99 999)) (reverse(range 99 9 99)))))\n#'euler.core/products\neuler.core=> (take 10 (products))\n(take 10 (products))\nClassCastException clojure.lang.LazySeq cannot be cast to clojure.lang.IFn  euler.core/eval1829 (NO_SOURCE_FILE:1)\n\neuler.core=> (def products \n	;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(map (fn [a b] (+ a b)) (reverse(range 99 999)) (reverse(range 99 999))))))\n(def products \n        #_=> ;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (map (fn [a b] (+ a b)) (reverse(range 99 999)) (reverse(range 99 9 99))))))\n#'euler.core/products\nRuntimeException Unmatched delimiter: )  clojure.lang.Util.runtimeException (Util.java:219)\nRuntimeException Unmatched delimiter: )  clojure.lang.Util.runtimeException (Util.java:219)\n\neuler.core=> (def products \n	;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(map (fn [a b] (+ a b)) (reverse(range 99 999)) (reverse(range 99 999))))\n(def products \n        #_=> ;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (map (fn [a b] (+ a b)) (reverse(range 99 999)) (reverse(range 99 9 99))))\n#'euler.core/products\neuler.core=> (take 10 (products))\n(take 10 (products))\nClassCastException clojure.lang.LazySeq cannot be cast to clojure.lang.IFn  euler.core/eval1847 (NO_SOURCE_FILE:1)\n\neuler.core=> (def products \n	;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(map (fn [a b] (+ a b)) (reverse (range 99 999)) (reverse (range 99 999))))\n(def products \n        #_=> ;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (map (fn [a b] (+ a b)) (reverse (range 99 999)) (reverse (range 99  999))))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n(1996 1994 1992 1990 1988 1986 1984 1982 1980 1978)\neuler.core=> (def products \n	;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(map (fn [a b] (list a b)) (reverse (range 99 999)) (reverse (range 99 999))))\n(def products \n        #_=> ;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (map (fn [a b] (list a b)) (reverse (range 99 999)) (reverse (range  99 999))))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n((998 998) (997 997) (996 996) (995 995) (994 994) (993 993) (992 992) (991 991) (990 990) (989 989))\neuler.core=> (def products \n	;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(map (fn [a b] (list a b)) (reverse (range 99 101)) (reverse (range 99 101))))\n(def products \n        #_=> ;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (map (fn [a b] (list a b)) (reverse (range 99 101)) (reverse (range  99 101))))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n((100 100) (99 99))\neuler.core=> (def products \n	;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(for [a (reverse (range 99 101)) b (reverse (range 99 101))] (list a b)))\n(def products \n        #_=> ;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (for [a (reverse (range 99 101)) b (reverse (range 99 101))] (list  a b)))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n((100 100) (100 99) (99 100) (99 99))\neuler.core=> (def products \n	;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(for [a (reverse (range 99 130)) b (reverse (range 99 130))] (list a b)))\n(def products \n        #_=> ;(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (for [a (reverse (range 99 130)) b (reverse (range 99 130))] (list  a b)))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n((129 129) (129 128) (129 127) (129 126) (129 125) (129 124) (129 123) (129 122) (129 121) (129 120))\neuler.core=> (def products \n	(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(for [a (reverse (range 99 130)) b (reverse (range 99 130))] (list a b))))\n(def products \n        #_=> (filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (for [a (reverse (range 99 130)) b (reverse (range 99 130))] (list  a b))))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n((121 110) (111 110) (110 121) (110 111) (110 101) (101 110) (100 99) (99 100))\neuler.core=> (def products \n	(filter #(palindrom? (split (* (first %) (last %)) 6 )) \n		(for [a (reverse (range 99 999)) b (reverse (range 99 999))] (list a b))))\n(def products \n        #_=> (filter #(palindrom? (split (* (first %) (last %)) 6 )) \n        #_=> (for [a (reverse (range 99 999)) b (reverse (range 99 999))] (list  a b))))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n((995 583) (995 517) (993 913) (991 121) (990 101) (987 286) (987 143) (982 869) (979 664) (979 614))\neuler.core=> (map (fn [a b] (* a b)) (take 10 products))\n(map (fn [a b] (* a b)) (take 10 products))\nArityException Wrong number of args (1) passed to: core$eval2021$fn  clojure.lang.AFn.throwArity (AFn.java:437)\n\neuler.core=> (map (fn [a] (* (first a) (next b))) (take 10 products))\n(map (fn [a] (* (first a) (next b))) (take 10 products))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: b in this context, compiling:(NO_SOURCE_PATH:1:27) \n\neuler.core=> (map (fn [a] (* (first a) (next a))) (take 10 products))\n(map (fn [a] (* (first a) (next a))) (take 10 products))\nClassCastException clojure.lang.PersistentList cannot be cast to java.lang.Number  clojure.lang.Numbers.multiply (Numbers.java:146)\n\neuler.core=> (take 10 products)\n(take 10 products)\n((995 583) (995 517) (993 913) (991 121) (990 101) (987 286) (987 143) (982 869) (979 664) (979 614))\neuler.core=> (first (take 10 products))\n(first (take 10 products))\n(995 583)\neuler.core=> (first (first (take 10 products)))\n(first (first (take 10 products)))\n995\neuler.core=> (last (first (take 10 products)))\n(last (first (take 10 products)))\n583\neuler.core=> (next (first (take 10 products)))\n(next (first (take 10 products)))\n(583)\neuler.core=> (map (fn [a] (* (first a) (last a))) (take 10 products))\n(map (fn [a] (* (first a) (last a))) (take 10 products))\n(580085 514415 906609 119911 99990 282282 141141 853358 650056 601106)\neuler.core=> (take 10 (map (fn [a] (* (first a) (last a))) products))\n(take 10 (map (fn [a] (* (first a) (last a))) products))\n(580085 514415 906609 119911 99990 282282 141141 853358 650056 601106)\neuler.core=> (reduce (fn [a b] a) (map (fn [a] (* (first a) (last a))) products))\n(reduce (fn [a b] a) (map (fn [a] (* (first a) (last a))) products) )\n580085\neuler.core=> (defn mul-pair [v] \n	(* (first v) (last v)))\n(defn mul-pair [v] \n        #_=> (* (first v) (last v)))\n#'euler.core/mul-pair\neuler.core=> (reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b) (map (fn [a] (* (first a) (last a))) products))\n(reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b) (map (fn [a ] (* (first a) (last a))) products))\n        #_=> )\n)\nArityException Wrong number of args (1) passed to: core$reduce  clojure.lang.AFn.throwArity (AFn.java:437)\n\neuler.core=> (reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b) (map (fn [a] (* (first a) (last a))) products)))\n(reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b) (map (fn [a ] (* (first a) (last a))) products)))\nArityException Wrong number of args (1) passed to: core$reduce  clojure.lang.AFn.throwArity (AFn.java:437)\n\neuler.core=> (reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b)) (map (fn [a] (* (first a) (last a))) products))\n(reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b)) (map (fn [ a] (* (first a) (last a))) products))\nIllegalArgumentException Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)\n\neuler.core=> (reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b)) products)\n(reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b)) products)\n(913 993)\neuler.core=> (* 913 993)\n(* 913 993)\n906609\neuler.core=> (reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b)) products)\n(reduce (fn [a b] (if(> (mul-pair a) (mul-pair b)) a b)) products)\n(913 993)\neuler.core=> (def products \n	(filter #(palindrom? (split % 6 )) \n		(for [a (reverse (range 99 999)) b (reverse (range 99 999))] (* a b))))\n(def products \n        #_=> (filter #(palindrom? (split % 6 )) \n        #_=> (for [a (reverse (range 99 999)) b (reverse (range 99 999))] (* a b ))))\n#'euler.core/products\neuler.core=> (take 10 products)\n(take 10 products)\n(580085 514415 906609 119911 99990 282282 141141 853358 650056 601106)\neuler.core=> (reduce max products)\n(reduce max products)\n906609\neuler.core=> (max products)\n(max products)\n(580085 514415 906609 119911 99990 282282 141141 853358 650056 601106 592295 543345 485584 436634 378873 329923 408804 204402 623326 525525 299992 469964 886688 804408 698896 631136 616616 443344 428824 270072 255552 828828 414414 487784 180081 888888 666666 444444 222222 348843 770077 653356 855558 807708 696696 648846 531135 489984 372273 324423 165561 117711 577775 723327 649946 272272 219912 292292 840048 821128 802208 630036 611116 420024 401104 210012 238832 227722 595595 589985 560065 554455 548845 513315 507705 564465 174471 861168 809908 470074 489984 693396 672276 579975 888888 861168 828828 801108 696696 636636 444444 279972 252252 219912 476674 780087 393393 262262 131131 886688 443344 513315 824428 412214 906609 793397 747747 650056 604406 588885 491194 445544 302203 286682 143341 551155 90090 819918 729927 639936 549945 459954 369963 279972 189981 99990 657756 507705 407704 168861 824428 819918 661166 656656 493394 488884 412214 407704 244442 239932 98890 828828 414414 561165 855558 461164 97790 840048 654456 468864 420024 234432 536635 428824 214412 272272 602206 301103 252252 106601 88880 618816 357753 96690 280082 663366 442244 221122 652256 737737 853358 809908 793397 749947 689986 534435 474474 215512 155551 95590 821128 801108 523325 749947 198891 94490 828828 696696 666666 636636 606606 474474 444444 414414 282282 252252 222222 90090 675576 345543 93390 802208 447744 401104 780087 737737 616616 484484 363363 242242 188881 121121 297792 585585 807708 259952 510015 508805 397793 92290 698896 611116 442244 425524 408804 290092 273372 256652 239932 87780 678876 595595 219912 804408 603306 402204 201102 91190 579975 576675 573375 570075 528825 525525 522225 462264 371173 660066 81180 747747 666666 585585 414414 333333 252252 171171 90090 89980 611116 678876 666666 654456 642246 630036 468864 456654 444444 432234 420024 258852 246642 234432 222222 210012 366663 696696 464464 232232 639936 426624 257752 213312 88880 434434 575575 654456 770077 729927 660066 619916 550055 509905 440044 330033 292292 220022 182281 110011 378873 87780 689986 675576 639936 612216 468864 441144 405504 297792 270072 234432 565565 95590 642246 321123 86680 276672 266662 239932 85580 666666 555555 444444 333333 222222 111111 571175 520025 630036 612216 619916 97790 90090 87780 80080 77770 489984 447744 405504 84480 513315 545545 477774 359953 723327 663366 519915 459954 414414 399993 354453 294492 105501 83380 506605 696696 464464 232232 297792 535535 693396 652256 611116 462264 421124 409904 272272 231132 219912 82280 270072 636636 424424 212212 171171 154451 81180 654456 571175 512215 367763 308803 284482 225522 142241 525525 661166 611116 168861 72270 696696 656656 616616 464464 424424 272272 232232 80080 79970 672276 657756 603306 471174 456654 402204 270072 255552 201102 698896 515515 78870 595595 585585 575575 565565 555555 545545 535535 525525 515515 505505 90090 80080 219912 399993 266662 133331 650056 485584 606606 505505 404404 303303 279972 202202 178871 101101 77770 639936 618816 489984 468864 447744 426624 405504 297792 276672 255552 234432 213312 84480 579975 576675 76670 489984 573375 512215 290092 666666 585585 414414 333333 279972 252252 198891 171171 108801 90090 570075 636636 424424 212212 401104 75570 550055 519915 127721 653356 649946 602206 485584 434434 270072 266662 215512 98890 82280 648846 74470 452254 520025 513315 506605 452254 445544 438834 391193 384483 377773 73370 630036 468864 432234 234432 87780 650056 445544 604406 87780 84480 81180 69960 66660 137731 282282 209902 72270 438834 273372 416614 631136 408804 471174 432234 374473 335533 277772 238832 71170 611116 588885 528825 84480 63360 623326 489984 464464 416614 280082 257752 232232 209902 98890 73370 616616 595595 525525 434434 343343 252252 161161 70070 447744 258852 69960 509905 97790 522225 215512 589985 90090 456654 579975 561165 477774 408804 375573 306603 273372 204402 189981 171171 102201 87780 68860 320023 462264 231132 464464 424424 299992 272272 259952 232232 219912 80080 67760 534435 81180 601106 256652 296692 282282 141141 459954 426624 279972 246642 213312 99990 66660 592295 577775 564465 551155 549945 536635 523325 510015 508805 95590 82280 67760 225522 138831 560065 375573 414414 65560 554455 468864 234432 252252 219912 548845 96690 64460 90090 580085 447744 424424 401104 391193 258852 235532 212212 69960 294492 374473 468864 405504 297792 234432 63360 239932 384483 484484 464464 444444 424424 404404 292292 272272 252252 232232 212212 80080 60060 87780 93390 62260 297792 421124 377773 513315 507705 462264 456654 399993 231132 225522 219912 180081 174471 168861 80080 67760 270072 441144 61160 543345 531135 402204 201102 474474 59950 58850 57750 56650 55550 54450 513315 440044 409904 493394 216612 474474 444444 414414 282282 252252 222222 90090 60060 59950 507705 488884 244442 249942 184481 525525 434434 343343 289982 252252 219912 198891 161161 128821 70070 491194 289982 58850 239932 87780 432234 69960 442244 221122 489984 468864 447744 426624 405504 297792 276672 255552 234432 213312 84480 63360 399993 266662 133331 57750 276672 80080 165561 444444 222222 514415 476674 461164 335533 320023 297792 282282 209902 156651 141141 420024 210012 56650 489984 405504 84480 292292 425524 487784 470074 459954 442244 414414 294492 266662 238832 221122 73370 99990 88880 77770 66660 55550 367763 485584 99990 90090 81180 72270 63360 54450 81180 70070 408804 306603 204402 102201 445544 299992 53350 469964 443344 428824 402204 296692 270072 255552 214412 82280 67760 414414 444444 333333 222222 111111 84480 63360 78870 272272 219912 52250 420024 401104 397793 378873 359953 210012 187781 168861 149941 238832 108801 252252 354453 51150 444444 414414 282282 279972 252252 249942 222222 219912 90090 87780 60060 57750 45540 443344 75570 412214 90090 80080 70070 60060 50050 49940 407704 412214 407704 371173 366663 244442 239932 198891 122221 117711 81180 76670 54450 162261 436634 420024 258852 234432 210012 48840 428824 214412 272272 252252 198891 88880 86680 84480 82280 80080 69960 67760 65560 63360 61160 48840 46640 44440 280082 140041 72270 221122 273372 47740 414414 393393 363363 333333 303303 282282 252252 222222 171171 141141 111111 90090 60060 277772 401104 69960 46640 297792 259952 87780 60060 308803 408804 290092 273372 256652 239932 221122 204402 87780 52250 105501 45540 231132 330033 81180 76670 89980 219912 369963 357753 345543 333333 321123 258852 246642 234432 222222 210012 159951 147741 135531 123321 111111 48840 232232 209902 279972 257752 235532 213312 88880 66660 44440 225522 171171 87780 187781 297792 279972 270072 252252 234432 216612 81180 63360 45540 95590 86680 43340 276672 159951 219912 266662 133331 90090 60060 372273 85580 294492 378873 284482 97790 90090 87780 80080 77770 70070 67760 60060 57750 50050 47740 40040 84480 63360 42240 129921 87780 83380 232232 297792 57750 272272 266662 231132 225522 219912 82280 76670 41140 270072 212212 48840 36630 198891 117711 81180 238832 72270 292292 272272 252252 232232 212212 80080 60060 40040 348843 270072 255552 201102 162261 147741 54450 39930 63360 219912 168861 38830 297792 276672 255552 234432 213312 84480 63360 42240 57750 50050 290092 45540 37730 301103 270072 266662 215512 184481 133331 129921 98890 51150 47740 82280 41140 324423 329923 234432 135531 36630 302203 99990 96690 93390 90090 87780 84480 81180 78870 75570 72270 69960 66660 63360 60060 57750 54450 51150 48840 45540 42240 39930 36630 33330 282282 209902 141141 273372 204402 50050 35530 180081 84480 63360 42240 280082 257752 232232 209902 165561 140041 117711 98890 73370 258852 69960 149941 215512 90090 286682 68860 34430 174471 98890 51150 47740 231132 299992 292292 279972 272272 259952 252252 239932 232232 219912 212212 87780 80080 67760 60060 47740 40040 256652 225522 279972 246642 213312 189981 156651 123321 99990 66660 33330 168861 161161 65560 234432 48840 252252 219912 96690 64460 32230 98890 73370 234432 63360 239932 198891 282282 272272 262262 252252 242242 232232 222222 212212 202202 90090 80080 70070 60060 50050 40040 30030 87780 93390 62260 31130 80080 67760 40040 27720 270072 61160 201102 45540 59950 58850 57750 56650 55550 54450 53350 52250 51150 50050 220022 252252 222222 171171 141141 111111 90090 60060 30030 29920 244442 122221 239932 87780 69960 46640 255552 234432 219912 213312 84480 69960 63360 48840 42240 27720 28820 117711 80080 60060 40040 222222 111111 210012 84480 42240 97790 238832 221122 178871 161161 133331 105501 73370 45540 27720 57750 52250 215512 171171 81180 70070 37730 227722 214412 201102 95590 82280 67760 54450 41140 39930 26620 84480 63360 42240 128821 78870 219912 90090 25520 222222 219912 198891 171171 168861 141141 138831 111111 108801 90090 87780 60060 57750 30030 27720 73370 45540 75570 87780 182281 49940 54450 188881 210012 48840 36630 24420 89980 88880 87780 86680 85580 84480 83380 82280 81180 80080 69960 68860 67760 66660 65560 64460 63360 62260 61160 60060 49940 48840 47740 46640 45540 44440 43340 42240 41140 40040 29920 28820 27720 26620 25520 24420 23320 22220 72270 59950 47740 58850 69960 46640 23320 90090 87780 60060 57750 30030 27720 204402 189981 171171 154451 137731 102201 87780 52250 35530 80080 45540 56650 81180 76670 99990 88880 77770 66660 55550 44440 33330 22220 99990 90090 81180 72270 63360 54450 45540 36630 27720 86680 43340 90090 60060 30030 53350 142241 84480 63360 42240 21120 87780 52250 35530 18810 180081 174471 168861 133331 127721 82280 76670 41140 35530 29920 51150 48840 36630 24420 90090 80080 70070 60060 50050 40040 30030 20020 19910 81180 63360 45540 27720 155551 88880 84480 80080 67760 63360 46640 42240 29920 25520 21120 57750 50050 165561 18810 82280 76670 41140 35530 29920 27720 99990 96690 93390 90090 87780 84480 81180 78870 75570 72270 69960 66660 63360 60060 57750 54450 51150 48840 45540 42240 39930 36630 33330 30030 27720 24420 21120 18810 81180 102201 17710 84480 63360 42240 29920 21120 69960 95590 143341 108801 60060 98890 51150 47740 97790 90090 87780 80080 77770 70070 67760 60060 57750 50050 47740 40040 37730 30030 27720 20020 17710 16610 57750 54450 51150 65560 48840 24420 72270 98890 73370 25520 63360 141141 131131 121121 111111 101101 90090 80080 70070 60060 50050 40040 30030 20020 15510 87780 80080 67760 60060 47740 40040 27720 20020 105501 61160 45540 110011 82280 29920 87780 87780 84480 81180 69960 66660 63360 60060 48840 45540 42240 27720 24420 21120 28820 14410 90090 80080 70070 60060 50050 40040 30030 20020 84480 63360 42240 21120 97790 90090 27720 57750 52250 47740 117711 81180 119911 106601 95590 82280 67760 54450 41140 39930 26620 13310 84480 69960 63360 48840 42240 27720 21120 90090 25520 73370 45540 17710 87780 18810 80080 67760 48840 36630 24420 12210 99990 98890 97790 96690 95590 94490 93390 92290 91190 90090 89980 88880 87780 86680 85580 84480 83380 82280 81180 80080 79970 78870 77770 76670 75570 74470 73370 72270 71170 70070 69960 68860 67760 66660 65560 64460 63360 62260 61160 60060 59950 58850 57750 56650 55550 54450 53350 52250 51150 50050 49940 48840 47740 46640 45540 44440 43340 42240 41140 40040 39930 38830 37730 36630 35530 34430 33330 32230 31130 30030 29920 28820 27720 26620 25520 24420 23320 22220 21120 20020 19910 18810 17710 16610 15510 14410 13310 12210 11110 59950 58850 69960 46640 23320 90090 87780 60060 57750 30030 27720 80080 40040 56650 99990 88880 77770 66660 55550 44440 33330 22220 11110 9900 90090 81180 72270 63360 54450 45540 36630 27720 18810 9900)\neuler.core=> 1\n1\n1\neuler.core=> (apply max products)\n(apply max products)\n906609\neuler.core=> (defn products [n] \n	(filter #(palindrom? (split % (* 2 n))) \n		(for [a (reverse (range 99 999)) b (reverse (range 99 999))] (* a b))))\n\n(def no4 [n] \n	(apply max (products n)))\n\n(defn products [n] \n        #_=> (filter #(palindrom? (split % (* 2 n))) \n        #_=> (for [a (reverse (range 99 999)) b (reverse (range 99 999))] (* a b ))))\n#'euler.core/products\neuler.core=> \n\neuler.core=> (def no4 [n] \n        #_=> (apply max (products n)))\nCompilerException java.lang.RuntimeException: Too many arguments to def, compiling:(NO_SOURCE_PATH:1:1) \n\neuler.core=> \n\neuler.core=> (defn products [n] \n	(filter #(palindrom? (split % (* 2 n))) \n		(for [a (reverse (range 99 999)) b (reverse (range 99 999))] (* a b))))\n\n(defn no4 [n] \n	(apply max (products n)))\n(defn products [n] \n        #_=> (filter #(palindrom? (split % (* 2 n))) \n        #_=> (for [a (reverse (range 99 999)) b (reverse (range 99 999))] (* a b ))))\n#'euler.core/products\neuler.core=> \n\neuler.core=> (defn no4 [n] \n        #_=> (apply max (products n)))\n#'euler.core/no4\neuler.core=> (no4 3)\n(no4 3)\n906609\neuler.core=> (defn products [n] \n	(filter #(palindrom? (split % (* 2 n))) \n		(for [a (range 99 999) b (range 99 999)] (* a b))))\n\n(defn no4 [n] \n	(apply max (products n)))\n(defn products [n] \n        #_=> (filter #(palindrom? (split % (* 2 n))) \n        #_=> (for [a (range 99 999) b (range 99 999)] (* a b))))\n#'euler.core/products\neuler.core=> \n\neuler.core=> (defn no4 [n] \n        #_=> (apply max (products n)))\n#'euler.core/no4\neuler.core=> (no4 3)\n(no4 3)\n906609\neuler.core=> (defn products [n] \n	(filter #(palindrom? (split % (* 2 n))) \n		(for [a (range 99 999) b (range 99 999 11)] (* a b))))\n\n(defn no4 [n] \n	(apply max (products n)))\n(defn products [n] \n        #_=> (filter #(palindrom? (split % (* 2 n))) \n        #_=> (for [a (range 99 999) b (range 99 999 11)] (* a b))))\n#'euler.core/products\neuler.core=> \n\neuler.core=> (defn no4 [n] \n        #_=> (apply max (products n)))\n#'euler.core/no4\neuler.core=> (no4 3)\n(no4 3)\n906609\neuler.core=> (defn products [n] \n	(filter #(palindrom? (split % (* 2 n))) \n		(for [a (range 99 999) b (range 99 999 11)] (* a b))))\n\n(defn no4 [n] \n	(apply max (products n)))",
+			"file": "src/euler/problem1.clj",
 			"settings":
 			{
-				"buffer_size": 41468,
+				"buffer_size": 213,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/euler/problem2.clj",
+			"settings":
+			{
+				"buffer_size": 216,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "nREPL server started on port 40346\nREPL-y 0.1.10\nClojure 1.5.1\n    Exit: Control+D or (exit) or (quit)\nCommands: (user/help)\n    Docs: (doc function-name-here)\n          (find-doc \"part-of-name-here\")\n  Source: (source function-name-here)\n          (user/sourcery function-name-here)\n Javadoc: (javadoc java-object-or-class-here)\nExamples from clojuredocs.org: [clojuredocs or cdoc]\n          (user/clojuredocs name-here)\n          (user/clojuredocs \"ns-here\" \"name-here\")\neuler.core=> (take 10 (iterate (+ 3) 3))\n(take 10 (iterate (+ 3) 3))\nClassCastException java.lang.Long cannot be cast to clojure.lang.IFn  clojure.core/iterate/fn--4266 (core.clj:2651)\n\neuler.core=> (take 10 (iterate inc 3))\n(take 10 (iterate inc 3))\n(3 4 5 6 7 8 9 10 11 12)\neuler.core=> (take 10 (iterate (+ 3 %) 3))\n(take 10 (iterate (+ 3 %) 3))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: % in this context, compiling:(NO_SOURCE_PATH:1:19) \n\neuler.core=> (take 10 (iterate #(+ 3 %) 3))\n(take 10 (iterate #(+ 3 %) 3))\n(3 6 9 12 15 18 21 24 27 30)\neuler.core=> (take 10 (iterate #(+ 5 %) 5))\n(take 10 (iterate #(+ 5 %) 5))\n(5 10 15 20 25 30 35 40 45 50)\neuler.core=> (reductions + (take 10 (iterate #(+ 5 %) 5)))\n(reductions + (take 10 (iterate #(+ 5 %) 5)))\n(5 15 30 50 75 105 140 180 225 275)\neuler.core=> (reduce + (take 10 (iterate #(+ 5 %) 5)))\n(reduce + (take 10 (iterate #(+ 5 %) 5)))\n275\neuler.core=> (defn calc [n] \n	( letfn [ sum [x] (reduce + (take n ( iterate #(+ x %) x)))]\n		(- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\n\n(defn calc [n] \n        #_=> ( letfn [ sum [x] (reduce + (take n ( iterate #(+ x %) x)))]\n        #_=> (- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\nCompilerException java.lang.IllegalArgumentException: Don't know how to create ISeq from: clojure.lang.Symbol, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n\neuler.core=> (defn calc [n] \n	( letfn [ (sum [x] (reduce + (take n ( iterate #(+ x %) x))))]\n		(- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\n(defn calc [n] \n        #_=> ( letfn [ (sum [x] (reduce + (take n ( iterate #(+ x %) x))))]\n        #_=> (- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\n#'euler.core/calc\neuler.core=> (calc 10)\n(calc 10)\n-385\neuler.core=> (reduce + (take 10 ( iterate #(+ 3 %) 3)))\n(reduce + (take 10 ( iterate #(+ 3 %) 3)))\n165\neuler.core=> (repeat 0 2)\n(repeat 0 2)\n()\neuler.core=> (repeat 2 0)\n(repeat 2 0)\n(0 0)\neuler.core=> (cons 3 (repeat 2 0))\n(cons 3 (repeat 2 0))\n(3 0 0)\neuler.core=> (defn multi [] (map first (iterate (fn[[a b ]])))",
+			"settings":
+			{
+				"buffer_size": 2492,
 				"line_ending": "Unix",
 				"name": "*REPL* [clojure]",
 				"scratch": true
@@ -81,24 +101,48 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 180.0,
+		"height": 117.0,
 		"selected_items":
 		[
 			[
-				"leint",
-				"Build: Lein: Test"
+				"gitADD",
+				"Git: Add Current File"
+			],
+			[
+				"gitadd",
+				"Git: Add Current File"
 			],
 			[
 				"leinr",
 				"Build: Lein: Run"
 			],
 			[
-				"gitc",
-				"Git: Commit"
+				"leint",
+				"Build: Lein: Test"
+			],
+			[
+				"lein",
+				"Build: Lein: Test"
+			],
+			[
+				"GITADD",
+				"Git: Add Current File"
+			],
+			[
+				"leinte",
+				"Build: Lein: Test"
 			],
 			[
 				"leinrun",
 				"Build: Lein: Run"
+			],
+			[
+				"g",
+				"Git: Add Current File"
+			],
+			[
+				"gitc",
+				"Git: Commit"
 			],
 			[
 				"gitst",
@@ -119,10 +163,6 @@
 			[
 				"lein run",
 				"Build: Lein: Run"
-			],
-			[
-				"lein",
-				"Build: Lein: Test"
 			],
 			[
 				"blt",
@@ -186,7 +226,24 @@
 	},
 	"file_history":
 	[
+		"/home/stefc/Projects/euler/src/euler/problem13.clj",
 		"/home/stefc/Projects/euler/test/euler/core_test.clj",
+		"/home/stefc/Projects/euler/src/euler/problem15.clj",
+		"/home/stefc/Projects/euler/src/euler/problem37.clj",
+		"/home/stefc/Projects/euler/src/euler/problem9.clj",
+		"/home/stefc/Projects/euler/src/euler/problem2.clj",
+		"/home/stefc/Projects/euler/src/euler/problem12.clj",
+		"/home/stefc/Projects/euler/src/euler/problem16.clj",
+		"/home/stefc/Projects/euler/src/euler/problem8.clj",
+		"/home/stefc/Projects/euler/src/euler/problem11.clj",
+		"/home/stefc/Projects/euler/src/euler/problem5.clj",
+		"/home/stefc/Projects/euler/src/euler/problem6.clj",
+		"/home/stefc/Projects/euler/src/euler/problem10.clj",
+		"/home/stefc/Projects/euler/src/euler/problem7.clj",
+		"/home/stefc/Projects/euler/src/euler/problem1.clj",
+		"/home/stefc/Projects/euler/src/euler/problem4.clj",
+		"/home/stefc/Projects/euler/project.clj",
+		"/home/stefc/Projects/euler/src/euler/problem3.clj",
 		"/home/stefc/Projects/euler/src/euler/core.clj",
 		"/home/stefc/Projects/euler/src/euler/project.clj",
 		"/home/stefc/Projects/rubiks-cube/project.clj",
@@ -204,6 +261,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -211,6 +269,13 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"prime?",
+			"\n",
+			"fib",
+			"pow10",
+			"deftest",
+			"\n    ",
+			"next-tuple",
 			"\n",
 			" "
 		],
@@ -230,7 +295,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -238,15 +303,15 @@
 					"file": "src/euler/core.clj",
 					"settings":
 					{
-						"buffer_size": 2450,
+						"buffer_size": 1823,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1172,
-								1172
+								1245,
+								1245
 							]
 						],
 						"settings":
@@ -255,17 +320,17 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1170.0,
+						"translation.y": 596.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "test/euler/core_test.clj",
+					"file": "src/euler/problem3.clj",
 					"settings":
 					{
-						"buffer_size": 279,
+						"buffer_size": 236,
 						"regions":
 						{
 						},
@@ -288,17 +353,75 @@
 				},
 				{
 					"buffer": 2,
+					"file": "src/euler/problem1.clj",
 					"settings":
 					{
-						"buffer_size": 41468,
+						"buffer_size": 213,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								41307,
-								41307
+								198,
+								198
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Clojure/Clojure.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 31.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/euler/problem2.clj",
+					"settings":
+					{
+						"buffer_size": 216,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								216,
+								216
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Clojure/Clojure.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"settings":
+					{
+						"buffer_size": 2492,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2487,
+								2487
 							]
 						],
 						"settings":
@@ -312,13 +435,13 @@
 							"line_numbers": false,
 							"repl": true,
 							"repl_external_id": "clojure",
-							"repl_id": "739f64b734734330bce5d1a5886410e9",
+							"repl_id": "cbbf7f86434f4fd5bdd6a0789ca10833",
 							"smart_indent": false,
 							"syntax": "Packages/Clojure/Clojure.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 21566.0,
+						"translation.y": 1440.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -343,6 +466,12 @@
 				0,
 				1,
 				1
+			],
+			[
+				0,
+				1,
+				1,
+				2
 			]
 		],
 		"cols":
@@ -353,6 +482,7 @@
 		"rows":
 		[
 			0.0,
+			0.5,
 			1.0
 		]
 	},

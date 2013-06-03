@@ -12,9 +12,11 @@
 	(:require [euler.problem10])
 	(:require [euler.problem11])
 	(:require [euler.problem13])
+	(:require [euler.problem14])
 	(:require [euler.problem15])
 	(:require [euler.problem16])
 	(:require [euler.problem37])
+	(:require [euler.problem50])
 )
 
 ; Smarter but very slow ?
@@ -35,7 +37,9 @@
  	(time(println (format "Problem No %d = %s" 10 (euler.problem10/calc 2e6))))
  	(time(println (format "Problem No %d = %s" 11 (euler.problem11/calc 4))))
  	(time(println (format "Problem No %d = %s" 13 (euler.problem13/calc 10))))
- 	(time(println (format "Problem No %d = %s" 15 (euler.problem15/calc 20))))
+ 	(time(println (format "Problem No %d = %s" 14 (euler.problem14/calc ))))
+ 	(time(println (format "Problem No %d = %s" 15 (euler.problem15/calc 1e6))))
  	(time(println (format "Problem No %d = %s" 16 (euler.problem16/calc 1000))))
  	(time(println (format "Problem No %d = %d" 37 (euler.problem37/calc 11))))
+ 	(time(println (format "Problem No %d = %d" 50 (euler.problem50/calc 1e6))))
   )
