@@ -59,8 +59,25 @@
 			"file": "src/euler/core.clj",
 			"settings":
 			{
-				"buffer_size": 1823,
+				"buffer_size": 2044,
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/euler/problem17.clj",
+			"settings":
+			{
+				"buffer_size": 667,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/euler/problem14.clj",
+			"settings":
+			{
+				"buffer_size": 465,
+				"line_ending": "Unix",
+				"name": "(defn collatz [n]"
 			}
 		},
 		{
@@ -88,10 +105,19 @@
 			}
 		},
 		{
-			"contents": "nREPL server started on port 40346\nREPL-y 0.1.10\nClojure 1.5.1\n    Exit: Control+D or (exit) or (quit)\nCommands: (user/help)\n    Docs: (doc function-name-here)\n          (find-doc \"part-of-name-here\")\n  Source: (source function-name-here)\n          (user/sourcery function-name-here)\n Javadoc: (javadoc java-object-or-class-here)\nExamples from clojuredocs.org: [clojuredocs or cdoc]\n          (user/clojuredocs name-here)\n          (user/clojuredocs \"ns-here\" \"name-here\")\neuler.core=> (take 10 (iterate (+ 3) 3))\n(take 10 (iterate (+ 3) 3))\nClassCastException java.lang.Long cannot be cast to clojure.lang.IFn  clojure.core/iterate/fn--4266 (core.clj:2651)\n\neuler.core=> (take 10 (iterate inc 3))\n(take 10 (iterate inc 3))\n(3 4 5 6 7 8 9 10 11 12)\neuler.core=> (take 10 (iterate (+ 3 %) 3))\n(take 10 (iterate (+ 3 %) 3))\nCompilerException java.lang.RuntimeException: Unable to resolve symbol: % in this context, compiling:(NO_SOURCE_PATH:1:19) \n\neuler.core=> (take 10 (iterate #(+ 3 %) 3))\n(take 10 (iterate #(+ 3 %) 3))\n(3 6 9 12 15 18 21 24 27 30)\neuler.core=> (take 10 (iterate #(+ 5 %) 5))\n(take 10 (iterate #(+ 5 %) 5))\n(5 10 15 20 25 30 35 40 45 50)\neuler.core=> (reductions + (take 10 (iterate #(+ 5 %) 5)))\n(reductions + (take 10 (iterate #(+ 5 %) 5)))\n(5 15 30 50 75 105 140 180 225 275)\neuler.core=> (reduce + (take 10 (iterate #(+ 5 %) 5)))\n(reduce + (take 10 (iterate #(+ 5 %) 5)))\n275\neuler.core=> (defn calc [n] \n	( letfn [ sum [x] (reduce + (take n ( iterate #(+ x %) x)))]\n		(- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\n\n(defn calc [n] \n        #_=> ( letfn [ sum [x] (reduce + (take n ( iterate #(+ x %) x)))]\n        #_=> (- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\nCompilerException java.lang.IllegalArgumentException: Don't know how to create ISeq from: clojure.lang.Symbol, compiling:(NO_SOURCE_PATH:2:1) \n\neuler.core=> \n\neuler.core=> (defn calc [n] \n	( letfn [ (sum [x] (reduce + (take n ( iterate #(+ x %) x))))]\n		(- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\n(defn calc [n] \n        #_=> ( letfn [ (sum [x] (reduce + (take n ( iterate #(+ x %) x))))]\n        #_=> (- ( + (sum 3) (sum 5)) (sum (* 3 5)))))\n#'euler.core/calc\neuler.core=> (calc 10)\n(calc 10)\n-385\neuler.core=> (reduce + (take 10 ( iterate #(+ 3 %) 3)))\n(reduce + (take 10 ( iterate #(+ 3 %) 3)))\n165\neuler.core=> (repeat 0 2)\n(repeat 0 2)\n()\neuler.core=> (repeat 2 0)\n(repeat 2 0)\n(0 0)\neuler.core=> (cons 3 (repeat 2 0))\n(cons 3 (repeat 2 0))\n(3 0 0)\neuler.core=> (defn multi [] (map first (iterate (fn[[a b ]])))",
+			"file": "src/euler/problem50.clj",
 			"settings":
 			{
-				"buffer_size": 2492,
+				"buffer_size": 1359,
+				"line_ending": "Unix",
+				"name": "(ns euler.problem50)"
+			}
+		},
+		{
+			"contents": "1\nnREPL server started on port 54192\nREPL-y 0.1.10\nClojure 1.5.1\n    Exit: Control+D or (exit) or (quit)\nCommands: (user/help)\n    Docs: (doc function-name-here)\n          (find-doc \"part-of-name-here\")\n  Source: (source function-name-here)\n          (user/sourcery function-name-here)\n Javadoc: (javadoc java-object-or-class-here)\nExamples from clojuredocs.org: [clojuredocs or cdoc]\n          (user/clojuredocs name-here)\n          (user/clojuredocs \"ns-here\" \"name-here\")\neuler.core=> 1\n1\neuler.core=> 1\n1\n1\neuler.core=> \n(def numbers { 1 \"one\" 2 \"two\" 3 \"three\" 4 \"four\" 5 \"five\" 6 \"six\" 7 \"seven\" 8 \"eight\" 9 \"nine\" \n	10 \"ten\" 20 \"twenty\" 30 \"thirty\" 40 \"fourty\" 50 \"fifty\" 60 \"sixty\" 70 \"seventy\" 80 \"eighty\" 90 \"ninety\"\n	100 \"hundert\" 1000 \"thousand\" \n	11 \"elven\" 12 \"twelve\" 13 \"thirteen\" 14 \"fourteen\" 15 \"fifteen\" 16 \"sixteen\" 17 \"seventeen\" 18 \"eighteen\" 19 \"nineteen\"})\n\n\n\neuler.core=> (def numbers { 1 \"one\" 2 \"two\" 3 \"three\" 4 \"four\" 5 \"five\" 6 \"six\"  7 \"seven\" 8 \"eight\" 9 \"nine\" \n        #_=> 10 \"ten\" 20 \"twenty\" 30 \"thirty\" 40 \"fourty\" 50 \"fifty\" 60 \"sixty\"  70 \"seventy\" 80 \"eighty\" 90 \"ninety\"\n        #_=> 100 \"hundert\" 1000 \"thousand\" \n        #_=> 11 \"elven\" 12 \"twelve\" 13 \"thirteen\" 14 \"fourteen\" 15 \"fifteen\" 16  \"sixteen\" 17 \"seventeen\" 18 \"eighteen\" 19 \"nineteen\"})\n#'euler.core/numbers\neuler.core=> \n\neuler.core=> (numbers 23)\n(numbers 23)\nnil\neuler.core=> (numbers 20)\n(numbers 20)\n\"twenty\"\neuler.core=> (numbers 19)\n(numbers 19)\n\"nineteen\"\neuler.core=> (numbers 1)\n(numbers 1)\n\"one\"\neuler.core=> (numbers 1000)\n(numbers 1000)\n\"thousand\"\neuler.core=> (cons (numbers 3) '()')\n(cons (numbers 3) '()')\nRuntimeException Unmatched delimiter: )  clojure.lang.Util.runtimeException (Util.java:219)\n\neuler.core=> (cons (numbers 3) '())\n(cons (numbers 3) '())\n(\"three\")\neuler.core=> ",
+			"settings":
+			{
+				"buffer_size": 1807,
 				"line_ending": "Unix",
 				"name": "*REPL* [clojure]",
 				"scratch": true
@@ -105,16 +131,16 @@
 		"selected_items":
 		[
 			[
-				"gitADD",
-				"Git: Add Current File"
-			],
-			[
 				"gitadd",
 				"Git: Add Current File"
 			],
 			[
 				"leinr",
 				"Build: Lein: Run"
+			],
+			[
+				"gitADD",
+				"Git: Add Current File"
 			],
 			[
 				"leint",
@@ -295,7 +321,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -303,15 +329,15 @@
 					"file": "src/euler/core.clj",
 					"settings":
 					{
-						"buffer_size": 1823,
+						"buffer_size": 2044,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1245,
-								1245
+								1884,
+								1884
 							]
 						],
 						"settings":
@@ -320,13 +346,69 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 596.0,
+						"translation.y": 967.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "src/euler/problem17.clj",
+					"settings":
+					{
+						"buffer_size": 667,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								666,
+								666
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Clojure/Clojure.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/euler/problem14.clj",
+					"settings":
+					{
+						"buffer_size": 465,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								328,
+								328
+							]
+						],
+						"settings":
+						{
+							"auto_name": "(defn collatz [n]",
+							"syntax": "Packages/Clojure/Clojure.tmLanguage",
+							"tab_size": 3,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 239.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "src/euler/problem3.clj",
 					"settings":
 					{
@@ -352,7 +434,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "src/euler/problem1.clj",
 					"settings":
 					{
@@ -378,7 +460,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "src/euler/problem2.clj",
 					"settings":
 					{
@@ -389,13 +471,42 @@
 						"selection":
 						[
 							[
-								216,
-								216
+								20,
+								20
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Clojure/Clojure.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "src/euler/problem50.clj",
+					"settings":
+					{
+						"buffer_size": 1359,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "(ns euler.problem50)",
+							"syntax": "Packages/Clojure/Clojure.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -410,18 +521,18 @@
 			"sheets":
 			[
 				{
-					"buffer": 4,
+					"buffer": 7,
 					"settings":
 					{
-						"buffer_size": 2492,
+						"buffer_size": 1807,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2487,
-								2487
+								1807,
+								1807
 							]
 						],
 						"settings":
@@ -435,13 +546,13 @@
 							"line_numbers": false,
 							"repl": true,
 							"repl_external_id": "clojure",
-							"repl_id": "cbbf7f86434f4fd5bdd6a0789ca10833",
+							"repl_id": "cdc82114fb824e31a27bce2aa69ec3f4",
 							"smart_indent": false,
 							"syntax": "Packages/Clojure/Clojure.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1440.0,
+						"translation.y": 1258.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
