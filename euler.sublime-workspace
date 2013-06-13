@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"digits",
+				"digits-to-int"
+			],
+			[
+				"parti",
+				"partition-by"
+			],
+			[
 				"ident",
 				"identity"
 			],
@@ -56,68 +64,18 @@
 	"buffers":
 	[
 		{
-			"file": "src/euler/core.clj",
+			"file": "src/euler/problem35.clj",
 			"settings":
 			{
-				"buffer_size": 2044,
+				"buffer_size": 1121,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "src/euler/problem17.clj",
+			"contents": "#<CompilerException clojure.lang.ArityException: Wrong number of args (3) passed to: core$int, compiling:(euler/problem2.clj:15:1)>\nnREPL server started on port 34950\nREPL-y 0.1.10\nClojure 1.5.1\n    Exit: Control+D or (exit) or (quit)\nCommands: (user/help)\n    Docs: (doc function-name-here)\n          (find-doc \"part-of-name-here\")\n  Source: (source function-name-here)\n          (user/sourcery function-name-here)\n Javadoc: (javadoc java-object-or-class-here)\nExamples from clojuredocs.org: [clojuredocs or cdoc]\n          (user/clojuredocs name-here)\n          (user/clojuredocs \"ns-here\" \"name-here\")\neuler.core=> \n(defn log10 [n]\n	(int (+ 0.00000001 (/ (Math/log n) (Math/log 10)))))\n\n(defn pow10 [n] \n	(apply * (repeat n 10)))\n\n(defn lazy-primes []\n    (let [next-prime\n        (fn next-prime [x xs] \n          (if (some #(zero? (rem x %)) (take-while #(<= (* % %) x) xs))\n              (recur (+ x 2) xs)\n              (cons x (lazy-seq (next-prime (+ x 2) (conj xs x))))))]\n            (cons 2 (lazy-seq (next-prime 3 [])))))\n\n(defn prime? [n]\n      (.isProbablePrime (BigInteger/valueOf n) 5))\n\n(defn int-to-digits \n	(\n		[n start]\n			(map (fn [[a b]] (int(/ b a))) \n				(take-while (fn [[a b]] (>= a 1)) \n					(iterate (fn [[a b]] [(/ a 10) (- b (* a (int (/ b a))))]) [start n]))))\n	(	[n] \n			(int-to-digits n (pow10 (log10 n)))))\n\n(defn digits-to-int [digits]\n	(reduce #(+ (* %1 10) %2)  digits))\n\n(defn permutate [n]\n	(let [digits (inc (log10 n))]\n		(for [x (range digits)] (digits-to-int (take digits (drop x (cycle (int-to-digits n))))))))\n\n(defn circular-prime? [n]\n	(every? prime? (permutate n)))\n\n(defn count-circular-primes [n]\n	(count (filter circular-prime? (take-while #(< % n) (lazy-primes)))))\n\n\n\n\neuler.core=> (defn log10 [n]\n        #_=> (int (+ 0.00000001 (/ (Math/log n) (Math/log 10)))))\n#'euler.core/log10\neuler.core=> \n\neuler.core=> (defn pow10 [n] \n        #_=> (apply * (repeat n 10)))\n#'euler.core/pow10\neuler.core=> \n\neuler.core=> (defn lazy-primes []\n        #_=>     (let [next-prime\n        #_=>         (fn next-prime [x xs] \n        #_=>           (if (some #(zero? (rem x %)) (take-while #(<= (* % %) x)  xs))\n        #_=>               (recur (+ x 2) xs)\n        #_=>               (cons x (lazy-seq (next-prime (+ x 2) (conj xs x))))) )]\n        #_=>             (cons 2 (lazy-seq (next-prime 3 [])))))\n#'euler.core/lazy-primes\neuler.core=> \n\neuler.core=> (defn prime? [n]\n        #_=>       (.isProbablePrime (BigInteger/valueOf n) 5))\n#'euler.core/prime?\neuler.core=> \n\neuler.core=> (defn int-to-digits \n        #_=> (\n        #_=> [n start]\n        #_=> (map (fn [[a b]] (int(/ b a))) \n        #_=> (take-while (fn [[a b]] (>= a 1)) \n        #_=> (iterate (fn [[a b]] [(/ a 10) (- b (* a (int (/ b a))))]) [start n ]))))\n        #_=> ([n] \n        #_=> (int-to-digits n (pow10 (log10 n)))))\n#'euler.core/int-to-digits\neuler.core=> \n\neuler.core=> (defn digits-to-int [digits]\n        #_=> (reduce #(+ (* %1 10) %2)  digits))\n#'euler.core/digits-to-int\neuler.core=> \n\neuler.core=> (defn permutate [n]\n        #_=> (let [digits (inc (log10 n))]\n        #_=> (for [x (range digits)] (digits-to-int (take digits (drop x (cycle  (int-to-digits n))))))))\n#'euler.core/permutate\neuler.core=> \n\neuler.core=> (defn circular-prime? [n]\n        #_=> (every? prime? (permutate n)))\n#'euler.core/circular-prime?\neuler.core=> \n\neuler.core=> (defn count-circular-primes [n]\n        #_=> (count (filter circular-prime? (take-while #(< % n) (lazy-primes))) ))\n#'euler.core/count-circular-primes\neuler.core=> \n\neuler.core=> \n\neuler.core=> (time (count-circular-primes 100))\n(time (count-circular-primes 100))\n\"Elapsed time: 30.047469 msecs\"\n13\neuler.core=> (time (count-circular-primes 1000000))\n(time (count-circular-primes 1000000))\n\"Elapsed time: 51880.45903 msecs\"\n55\neuler.core=> ",
 			"settings":
 			{
-				"buffer_size": 667,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/euler/problem14.clj",
-			"settings":
-			{
-				"buffer_size": 465,
-				"line_ending": "Unix",
-				"name": "(defn collatz [n]"
-			}
-		},
-		{
-			"file": "src/euler/problem3.clj",
-			"settings":
-			{
-				"buffer_size": 236,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/euler/problem1.clj",
-			"settings":
-			{
-				"buffer_size": 213,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/euler/problem2.clj",
-			"settings":
-			{
-				"buffer_size": 216,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "src/euler/problem50.clj",
-			"settings":
-			{
-				"buffer_size": 1359,
-				"line_ending": "Unix",
-				"name": "(ns euler.problem50)"
-			}
-		},
-		{
-			"contents": "1\nnREPL server started on port 54192\nREPL-y 0.1.10\nClojure 1.5.1\n    Exit: Control+D or (exit) or (quit)\nCommands: (user/help)\n    Docs: (doc function-name-here)\n          (find-doc \"part-of-name-here\")\n  Source: (source function-name-here)\n          (user/sourcery function-name-here)\n Javadoc: (javadoc java-object-or-class-here)\nExamples from clojuredocs.org: [clojuredocs or cdoc]\n          (user/clojuredocs name-here)\n          (user/clojuredocs \"ns-here\" \"name-here\")\neuler.core=> 1\n1\neuler.core=> 1\n1\n1\neuler.core=> \n(def numbers { 1 \"one\" 2 \"two\" 3 \"three\" 4 \"four\" 5 \"five\" 6 \"six\" 7 \"seven\" 8 \"eight\" 9 \"nine\" \n	10 \"ten\" 20 \"twenty\" 30 \"thirty\" 40 \"fourty\" 50 \"fifty\" 60 \"sixty\" 70 \"seventy\" 80 \"eighty\" 90 \"ninety\"\n	100 \"hundert\" 1000 \"thousand\" \n	11 \"elven\" 12 \"twelve\" 13 \"thirteen\" 14 \"fourteen\" 15 \"fifteen\" 16 \"sixteen\" 17 \"seventeen\" 18 \"eighteen\" 19 \"nineteen\"})\n\n\n\neuler.core=> (def numbers { 1 \"one\" 2 \"two\" 3 \"three\" 4 \"four\" 5 \"five\" 6 \"six\"  7 \"seven\" 8 \"eight\" 9 \"nine\" \n        #_=> 10 \"ten\" 20 \"twenty\" 30 \"thirty\" 40 \"fourty\" 50 \"fifty\" 60 \"sixty\"  70 \"seventy\" 80 \"eighty\" 90 \"ninety\"\n        #_=> 100 \"hundert\" 1000 \"thousand\" \n        #_=> 11 \"elven\" 12 \"twelve\" 13 \"thirteen\" 14 \"fourteen\" 15 \"fifteen\" 16  \"sixteen\" 17 \"seventeen\" 18 \"eighteen\" 19 \"nineteen\"})\n#'euler.core/numbers\neuler.core=> \n\neuler.core=> (numbers 23)\n(numbers 23)\nnil\neuler.core=> (numbers 20)\n(numbers 20)\n\"twenty\"\neuler.core=> (numbers 19)\n(numbers 19)\n\"nineteen\"\neuler.core=> (numbers 1)\n(numbers 1)\n\"one\"\neuler.core=> (numbers 1000)\n(numbers 1000)\n\"thousand\"\neuler.core=> (cons (numbers 3) '()')\n(cons (numbers 3) '()')\nRuntimeException Unmatched delimiter: )  clojure.lang.Util.runtimeException (Util.java:219)\n\neuler.core=> (cons (numbers 3) '())\n(cons (numbers 3) '())\n(\"three\")\neuler.core=> ",
-			"settings":
-			{
-				"buffer_size": 1807,
+				"buffer_size": 3816,
 				"line_ending": "Unix",
 				"name": "*REPL* [clojure]",
 				"scratch": true
@@ -132,6 +90,18 @@
 		[
 			[
 				"gitadd",
+				"Git: Add Current File"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"addre",
+				"Package Control: Add Repository"
+			],
+			[
+				"git add",
 				"Git: Add Current File"
 			],
 			[
@@ -215,16 +185,8 @@
 				"Git: Status"
 			],
 			[
-				"git add",
-				"Git: Add..."
-			],
-			[
 				"lein ",
 				"Build: Lein: Uberjar"
-			],
-			[
-				"ins",
-				"Package Control: Install Package"
 			],
 			[
 				"inst",
@@ -252,25 +214,37 @@
 	},
 	"file_history":
 	[
+		"/home/stefc/Projects/euler/src/euler/problem48.clj",
+		"/home/stefc/Projects/euler/src/euler/problem40.clj",
+		"/home/stefc/Projects/euler/src/euler/problem37.clj",
+		"/home/stefc/Projects/euler/src/euler/problem25.clj",
+		"/home/stefc/Projects/euler/src/euler/problem2.clj",
+		"/home/stefc/Projects/euler/src/euler/problem17.clj",
+		"/home/stefc/Projects/euler/src/euler/problem20.clj",
+		"/home/stefc/Projects/euler/src/euler/problem19.clj",
+		"/home/stefc/Projects/euler/data/names.txt",
+		"/home/stefc/Projects/euler/src/euler/problem9.clj",
+		"/home/stefc/Projects/euler/src/euler/problem11.clj",
+		"/home/stefc/Projects/euler/src/euler/problem18.clj",
+		"/home/stefc/Projects/euler/src/euler/core.clj",
+		"/home/stefc/Projects/euler/src/euler/problem22.clj",
+		"/home/stefc/Projects/euler/src/euler/problem50.clj",
+		"/home/stefc/Projects/euler/src/euler/problem1.clj",
+		"/home/stefc/Projects/euler/src/euler/problem3.clj",
+		"/home/stefc/Projects/euler/src/euler/problem14.clj",
+		"/home/stefc/Projects/euler/src/euler/problem12.clj",
+		"/home/stefc/Projects/euler/src/euler/problem21.clj",
 		"/home/stefc/Projects/euler/src/euler/problem13.clj",
 		"/home/stefc/Projects/euler/test/euler/core_test.clj",
 		"/home/stefc/Projects/euler/src/euler/problem15.clj",
-		"/home/stefc/Projects/euler/src/euler/problem37.clj",
-		"/home/stefc/Projects/euler/src/euler/problem9.clj",
-		"/home/stefc/Projects/euler/src/euler/problem2.clj",
-		"/home/stefc/Projects/euler/src/euler/problem12.clj",
 		"/home/stefc/Projects/euler/src/euler/problem16.clj",
 		"/home/stefc/Projects/euler/src/euler/problem8.clj",
-		"/home/stefc/Projects/euler/src/euler/problem11.clj",
 		"/home/stefc/Projects/euler/src/euler/problem5.clj",
 		"/home/stefc/Projects/euler/src/euler/problem6.clj",
 		"/home/stefc/Projects/euler/src/euler/problem10.clj",
 		"/home/stefc/Projects/euler/src/euler/problem7.clj",
-		"/home/stefc/Projects/euler/src/euler/problem1.clj",
 		"/home/stefc/Projects/euler/src/euler/problem4.clj",
 		"/home/stefc/Projects/euler/project.clj",
-		"/home/stefc/Projects/euler/src/euler/problem3.clj",
-		"/home/stefc/Projects/euler/src/euler/core.clj",
 		"/home/stefc/Projects/euler/src/euler/project.clj",
 		"/home/stefc/Projects/rubiks-cube/project.clj",
 		"/home/stefc/Projects/rubiks-cube/src/rubiks_cube/core.clj",
@@ -297,6 +271,9 @@
 		[
 			"prime?",
 			"\n",
+			"48",
+			"prime?",
+			"\n",
 			"fib",
 			"pow10",
 			"deftest",
@@ -306,7 +283,7 @@
 			" "
 		],
 		"highlight": true,
-		"in_selection": false,
+		"in_selection": true,
 		"preserve_case": false,
 		"regex": false,
 		"replace_history":
@@ -321,106 +298,23 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "src/euler/core.clj",
+					"file": "src/euler/problem35.clj",
 					"settings":
 					{
-						"buffer_size": 2044,
+						"buffer_size": 1121,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1884,
-								1884
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Clojure/Clojure.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 967.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "src/euler/problem17.clj",
-					"settings":
-					{
-						"buffer_size": 667,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								666,
-								666
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/Clojure/Clojure.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "src/euler/problem14.clj",
-					"settings":
-					{
-						"buffer_size": 465,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								328,
-								328
-							]
-						],
-						"settings":
-						{
-							"auto_name": "(defn collatz [n]",
-							"syntax": "Packages/Clojure/Clojure.tmLanguage",
-							"tab_size": 3,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 239.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "src/euler/problem3.clj",
-					"settings":
-					{
-						"buffer_size": 236,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								236,
-								236
+								1121,
+								1121
 							]
 						],
 						"settings":
@@ -428,88 +322,7 @@
 							"syntax": "Packages/Clojure/Clojure.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "src/euler/problem1.clj",
-					"settings":
-					{
-						"buffer_size": 213,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								198,
-								198
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Clojure/Clojure.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 31.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "src/euler/problem2.clj",
-					"settings":
-					{
-						"buffer_size": 216,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								20,
-								20
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Clojure/Clojure.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "src/euler/problem50.clj",
-					"settings":
-					{
-						"buffer_size": 1359,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "(ns euler.problem50)",
-							"syntax": "Packages/Clojure/Clojure.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 529.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -521,18 +334,18 @@
 			"sheets":
 			[
 				{
-					"buffer": 7,
+					"buffer": 1,
 					"settings":
 					{
-						"buffer_size": 1807,
+						"buffer_size": 3816,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1807,
-								1807
+								3816,
+								3816
 							]
 						],
 						"settings":
@@ -546,13 +359,13 @@
 							"line_numbers": false,
 							"repl": true,
 							"repl_external_id": "clojure",
-							"repl_id": "cdc82114fb824e31a27bce2aa69ec3f4",
+							"repl_id": "3b8b840271fd47d6802ace6997861a48",
 							"smart_indent": false,
 							"syntax": "Packages/Clojure/Clojure.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1258.0,
+						"translation.y": 2552.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"

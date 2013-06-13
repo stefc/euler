@@ -8,6 +8,7 @@
 (defn values [s] 
 	(map #(clojure.string/replace % #"\"(.*)\"" "$1") 
 		(clojure.string/split s #",")))
+(defn sd [] ())
 
 (apply + 
 	(map #(* %1 %2) 
